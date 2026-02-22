@@ -5,6 +5,7 @@ export 'src/components/dl_badge.dart';
 export 'src/components/dl_button.dart';
 export 'src/components/dl_button_dock.dart';
 export 'src/components/dl_button_icon.dart';
+export 'src/components/dl_card.dart';
 export 'src/components/dl_separator.dart';
 export 'src/foundations/icons/dl_icons.dart';
 export 'src/foundations/tokens/dl_border_width_tokens.dart';

@@ -399,6 +399,8 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildAvatarSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildCardSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildButtonDockSection(),
             ],
           ),
@@ -618,6 +620,83 @@ class ButtonDemoScreen extends StatelessWidget {
         const DlAvatar(size: DlAvatarSize.sm, state: DlAvatarState.offline),
         const SizedBox(height: DlSpacingTokens.p_16),
         const DlAvatar(size: DlAvatarSize.xs, state: DlAvatarState.online),
+      ],
+    );
+  }
+
+  Widget _buildCardSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('DlCard examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        _buildCardPair(
+          const DlCard(
+            icon: DlPlaceholderIcon(),
+            title: 'md / with description',
+            description: 'Optional description text',
+          ),
+          const DlCard(
+            icon: DlPlaceholderIcon(),
+            title: 'md / title only',
+          ),
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        _buildCardPair(
+          const DlCard(
+            icon: DlPlaceholderIcon(),
+            title: 'lg / with description',
+            description: 'Optional description text',
+            size: DlCardSize.lg,
+          ),
+          const DlCard(
+            icon: DlPlaceholderIcon(),
+            title: 'lg / title only',
+            size: DlCardSize.lg,
+          ),
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        _buildCardPair(
+          const DlCard(
+            icon: DlPlaceholderIcon(),
+            title: 'md / active toggle',
+            description: 'Tap to toggle 2px border',
+            enableActiveState: true,
+          ),
+          const DlCard(
+            icon: DlPlaceholderIcon(),
+            title: 'lg / active toggle',
+            description: 'Tap to toggle 2px border',
+            size: DlCardSize.lg,
+            enableActiveState: true,
+          ),
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        _buildCardPair(
+          const DlCard(
+            icon: DlPlaceholderIcon(),
+            title: 'md / disabled',
+            description: 'Icon and text use grey500',
+            state: DlCardState.disabled,
+          ),
+          const DlCard(
+            icon: DlAssetIcon(assetPath: DlIcons.infoAsset),
+            title: 'lg / custom icon',
+            description: 'Icon is replaceable',
+            size: DlCardSize.lg,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCardPair(Widget left, Widget right) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: left),
+        const SizedBox(width: DlSpacingTokens.p_16),
+        Expanded(child: right),
       ],
     );
   }
