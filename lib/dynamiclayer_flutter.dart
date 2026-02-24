@@ -8,6 +8,7 @@ export 'src/components/dl_button_icon.dart';
 export 'src/components/dl_card.dart';
 export 'src/components/dl_checkbox.dart';
 export 'src/components/dl_chip.dart';
+export 'src/components/dl_input.dart';
 export 'src/components/dl_radio_button.dart';
 export 'src/components/dl_separator.dart';
 export 'src/foundations/icons/dl_icons.dart';
