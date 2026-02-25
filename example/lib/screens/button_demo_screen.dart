@@ -421,6 +421,8 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildPinKeyboardSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildTooltipSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildButtonDockSection(),
             ],
           ),
@@ -1113,6 +1115,26 @@ class ButtonDemoScreen extends StatelessWidget {
               type: DlPinKeyboardType.icon,
               state: DlPinKeyboardState.pressed,
             ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTooltipSection() {
+    return Column(
+      children: const [
+        Text('DlTooltip examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: DlSpacingTokens.p_16,
+          runSpacing: DlSpacingTokens.p_16,
+          children: [
+            DlTooltip(label: 'Bottom', direction: DlTooltipDirection.bottom),
+            DlTooltip(label: 'Top', direction: DlTooltipDirection.top),
+            DlTooltip(label: 'Left', direction: DlTooltipDirection.left),
+            DlTooltip(label: 'Right', direction: DlTooltipDirection.right),
           ],
         ),
       ],

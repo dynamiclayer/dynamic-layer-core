@@ -17,6 +17,7 @@ export 'src/components/dl_separator.dart';
 export 'src/components/dl_switch.dart';
 export 'src/components/dl_tag.dart';
 export 'src/components/dl_textarea.dart';
+export 'src/components/dl_tooltip.dart';
 export 'src/foundations/icons/dl_icons.dart';
 export 'src/foundations/tokens/dl_border_width_tokens.dart';
 export 'src/foundations/tokens/dl_color_tokens.dart';
