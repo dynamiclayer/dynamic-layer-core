@@ -409,6 +409,18 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildInputSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildTextareaSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildOtpInputSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildSwitchSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildTagSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildPaginationSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildPinKeyboardSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildButtonDockSection(),
             ],
           ),
@@ -872,6 +884,236 @@ class ButtonDemoScreen extends StatelessWidget {
           placeholder: 'Disabled success input',
           type: DlInputType.success,
           enabled: false,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextareaSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlTextarea examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Default'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlTextarea(placeholder: 'Write your message...'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Long placeholder'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlTextarea(
+          placeholder:
+              'This is a long textarea placeholder to test line wrapping and typing behavior.',
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Disabled'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlTextarea(
+          placeholder: 'Disabled textarea',
+          enabled: false,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOtpInputSection() {
+    return Column(
+      children: [
+        const Text('DlOTPInput examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Size lg'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        const Wrap(
+          alignment: WrapAlignment.center,
+          spacing: DlSpacingTokens.p_16,
+          runSpacing: DlSpacingTokens.p_16,
+          children: [
+            DlOTPInput(size: DlOtpInputSize.lg),
+            DlOTPInput(size: DlOtpInputSize.lg, state: DlOtpInputState.error),
+            DlOTPInput(size: DlOtpInputSize.lg, state: DlOtpInputState.success),
+            DlOTPInput(size: DlOtpInputSize.lg, state: DlOtpInputState.disabled),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Size md'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        const Wrap(
+          alignment: WrapAlignment.center,
+          spacing: DlSpacingTokens.p_16,
+          runSpacing: DlSpacingTokens.p_16,
+          children: [
+            DlOTPInput(size: DlOtpInputSize.md),
+            DlOTPInput(size: DlOtpInputSize.md, state: DlOtpInputState.error),
+            DlOTPInput(size: DlOtpInputSize.md, state: DlOtpInputState.success),
+            DlOTPInput(size: DlOtpInputSize.md, state: DlOtpInputState.disabled),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Size sm'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        const Wrap(
+          alignment: WrapAlignment.center,
+          spacing: DlSpacingTokens.p_16,
+          runSpacing: DlSpacingTokens.p_16,
+          children: [
+            DlOTPInput(size: DlOtpInputSize.sm),
+            DlOTPInput(size: DlOtpInputSize.sm, state: DlOtpInputState.error),
+            DlOTPInput(size: DlOtpInputSize.sm, state: DlOtpInputState.success),
+            DlOTPInput(size: DlOtpInputSize.sm, state: DlOtpInputState.disabled),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSwitchSection() {
+    return Column(
+      children: [
+        const Text('DlSwitch examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlSwitch(),
+      ],
+    );
+  }
+
+  Widget _buildTagSection() {
+    return Column(
+      children: [
+        const Text('DlTag examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Wrap(
+          alignment: WrapAlignment.center,
+          spacing: DlSpacingTokens.p_16,
+          runSpacing: DlSpacingTokens.p_16,
+          children: [
+            DlTag(label: 'Tag lg', size: DlTagSize.lg),
+            DlTag(label: 'Tag md', size: DlTagSize.md),
+            DlTag(label: 'Tag sm', size: DlTagSize.sm),
+            DlTag(
+              label: 'Tag / left icon',
+              iconLeft: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Tag / right icon',
+              iconRight: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Tag / left + right',
+              iconLeft: DlPlaceholderIcon(),
+              iconRight: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Tag md / left icon',
+              size: DlTagSize.md,
+              iconLeft: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Tag md / right icon',
+              size: DlTagSize.md,
+              iconRight: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Tag sm / left + right',
+              size: DlTagSize.sm,
+              iconLeft: DlPlaceholderIcon(),
+              iconRight: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Tag dark',
+              mode: DlTagMode.dark,
+            ),
+            DlTag(
+              label: 'Tag dark / icons',
+              mode: DlTagMode.dark,
+              iconLeft: DlPlaceholderIcon(),
+              iconRight: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Tag dark / md',
+              mode: DlTagMode.dark,
+              size: DlTagSize.md,
+              iconLeft: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Tag dark / sm',
+              mode: DlTagMode.dark,
+              size: DlTagSize.sm,
+              iconRight: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Warning light',
+              type: DlTagType.warning,
+              iconLeft: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Warning dark',
+              type: DlTagType.warning,
+              mode: DlTagMode.dark,
+              iconLeft: DlPlaceholderIcon(),
+              iconRight: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Error light',
+              type: DlTagType.error,
+              iconLeft: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Error dark',
+              type: DlTagType.error,
+              mode: DlTagMode.dark,
+              iconLeft: DlPlaceholderIcon(),
+              iconRight: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Success light',
+              type: DlTagType.success,
+              iconLeft: DlPlaceholderIcon(),
+            ),
+            DlTag(
+              label: 'Success dark',
+              type: DlTagType.success,
+              mode: DlTagMode.dark,
+              iconLeft: DlPlaceholderIcon(),
+              iconRight: DlPlaceholderIcon(),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPaginationSection() {
+    return Column(
+      children: [
+        const Text('DlPagination examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlPagination(count: 4),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlPagination(count: 6, initialIndex: 2),
+      ],
+    );
+  }
+
+  Widget _buildPinKeyboardSection() {
+    return Column(
+      children: [
+        const Text('DlPinKeyboard examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Wrap(
+          alignment: WrapAlignment.center,
+          spacing: DlSpacingTokens.p_16,
+          runSpacing: DlSpacingTokens.p_16,
+          children: [
+            DlPinKeyboard(number: '1', alphabet: 'ABC'),
+            DlPinKeyboard(number: '2', alphabet: 'DEF'),
+            DlPinKeyboard(number: '3'),
+            DlPinKeyboard(number: '4', state: DlPinKeyboardState.pressed),
+            DlPinKeyboard(type: DlPinKeyboardType.icon),
+            DlPinKeyboard(
+              type: DlPinKeyboardType.icon,
+              state: DlPinKeyboardState.pressed,
+            ),
+          ],
         ),
       ],
     );
