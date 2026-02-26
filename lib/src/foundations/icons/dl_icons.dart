@@ -16,6 +16,9 @@ abstract final class DlIcons {
       'packages/dynamiclayer_flutter/assets/icons/circle-x.svg';
   static const String infoAsset =
       'packages/dynamiclayer_flutter/assets/icons/info.svg';
+  static const String searchAsset =
+      'packages/dynamiclayer_flutter/assets/icons/search.svg';
+  static const String xAsset = 'packages/dynamiclayer_flutter/assets/icons/x.svg';
   static const String userAsset =
       'packages/dynamiclayer_flutter/assets/icons/user.svg';
   static const String avatarImageAsset =

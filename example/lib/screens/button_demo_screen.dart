@@ -409,6 +409,8 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildInputSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildSearchFieldSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildTextareaSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildOtpInputSection(),
@@ -416,6 +418,12 @@ class ButtonDemoScreen extends StatelessWidget {
               _buildSwitchSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildTagSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildTopNavigationSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildTopNavigationMessageSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildTabControlSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildPaginationSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
@@ -891,6 +899,51 @@ class ButtonDemoScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildSearchFieldSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlSearchField examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Default'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlSearchField(placeholder: 'Search...'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Size md'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlSearchField(
+          placeholder: 'Search md...',
+          size: DlSearchFieldSize.md,
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Size sm'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlSearchField(
+          placeholder: 'Search sm...',
+          size: DlSearchFieldSize.sm,
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Type to show clear icon'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlSearchField(placeholder: 'Type at least 1 character'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Long placeholder'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlSearchField(
+          placeholder:
+              'This is a long search placeholder text to test one-line ellipsis behavior.',
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Disabled'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlSearchField(
+          placeholder: 'Search disabled',
+          enabled: false,
+        ),
+      ],
+    );
+  }
+
   Widget _buildTextareaSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1078,6 +1131,112 @@ class ButtonDemoScreen extends StatelessWidget {
               iconLeft: DlPlaceholderIcon(),
               iconRight: DlPlaceholderIcon(),
             ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTopNavigationSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlTopNavigation examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Size md'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlTopNavigation(
+          title: 'Navigation title',
+          iconLeft: DlPlaceholderIcon(),
+          iconRight: DlPlaceholderIcon(),
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Text('Size lg'),
+        SizedBox(height: DlSpacingTokens.p_8),
+        DlTopNavigation(
+          title: 'Large navigation title',
+          size: DlTopNavigationSize.lg,
+          iconLeft: DlPlaceholderIcon(),
+          iconRight: DlPlaceholderIcon(),
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlTopNavigation(
+          title: 'Navigation without icons',
+          showSeparator: false,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTopNavigationMessageSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlTopNavigationMessage examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlTopNavigationMessage(
+          title: 'Messages',
+          avatar: DlAvatar(
+            size: DlAvatarSize.xs,
+            type: DlAvatarType.initials,
+            initials: 'DL',
+          ),
+          iconLeft: DlPlaceholderIcon(),
+          iconRight: DlPlaceholderIcon(),
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlTopNavigationMessage(
+          title: 'Messages without separator',
+          avatar: DlAvatar(size: DlAvatarSize.xs),
+          showSeparator: false,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTabControlSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('DlTabControl examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Count 3 / labels'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlTabControl(
+          tabs: const [
+            DlTabControlTab(label: 'Overview'),
+            DlTabControlTab(label: 'Details'),
+            DlTabControlTab(label: 'Activity'),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Count 4 / with badges'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlTabControl(
+          tabs: const [
+            DlTabControlTab(label: 'All', badge: DlBadge(size: DlBadgeSize.sm)),
+            DlTabControlTab(label: 'Open', badge: DlBadge(size: DlBadgeSize.md, value: '8')),
+            DlTabControlTab(label: 'Done'),
+            DlTabControlTab(label: 'Archived', badge: DlBadge(size: DlBadgeSize.md, value: '2')),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Count 3 / with disabled tab'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlTabControl(
+          tabs: const [
+            DlTabControlTab(label: 'Profile'),
+            DlTabControlTab(label: 'Billing', state: DlTabControlTabState.disabled),
+            DlTabControlTab(label: 'Security'),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Count 2 / simple tabs'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlTabControl(
+          tabs: const [
+            DlTabControlTab(label: 'Tab 1'),
+            DlTabControlTab(label: 'Tab 2'),
           ],
         ),
       ],
