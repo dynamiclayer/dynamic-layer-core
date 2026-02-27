@@ -423,6 +423,8 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildTopNavigationMessageSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildSnackbarSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildTabControlSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildPaginationSection(),
@@ -1189,6 +1191,39 @@ class ButtonDemoScreen extends StatelessWidget {
           title: 'Messages without separator',
           avatar: DlAvatar(size: DlAvatarSize.xs),
           showSeparator: false,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSnackbarSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlSnackbar examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSnackbar(
+          label: 'Saved successfully',
+          type: DlSnackbarType.success,
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSnackbar(
+          label: 'Something went wrong',
+          type: DlSnackbarType.error,
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSnackbar(
+          label: 'Please review this warning',
+          type: DlSnackbarType.warning,
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSnackbar(
+          label: 'New information available',
+          type: DlSnackbarType.information,
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSnackbar(
+          label: 'Very long snackbar message that should truncate in one line.',
         ),
       ],
     );

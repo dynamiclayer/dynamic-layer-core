@@ -15,6 +15,7 @@ export 'src/components/dl_pin_keyboard.dart';
 export 'src/components/dl_radio_button.dart';
 export 'src/components/dl_search_field.dart';
 export 'src/components/dl_separator.dart';
+export 'src/components/dl_snackbar.dart';
 export 'src/components/dl_switch.dart';
 export 'src/components/dl_tag.dart';
 export 'src/components/dl_tab_control.dart';
