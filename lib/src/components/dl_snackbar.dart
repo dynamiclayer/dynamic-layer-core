@@ -48,6 +48,7 @@ class DlSnackbar extends StatelessWidget {
               DlAssetIcon(
                 key: const Key('dl_snackbar_icon'),
                 assetPath: _iconPathForType(),
+                color: _iconColorForType(colors),
               ),
               const SizedBox(width: DlSpacingTokens.p_8),
               Flexible(
@@ -56,7 +57,9 @@ class DlSnackbar extends StatelessWidget {
                   key: const Key('dl_snackbar_label'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: DlTextStyles.textBase.semiBold.copyWith(color: colors.black),
+                  style: DlTextStyles.textBase.semiBold.copyWith(
+                    color: colors.black,
+                  ),
                 ),
               ),
             ],
@@ -76,6 +79,19 @@ class DlSnackbar extends StatelessWidget {
         return DlIcons.alertTriangleFilledAsset;
       case DlSnackbarType.information:
         return DlIcons.infoAsset;
+    }
+  }
+
+  Color _iconColorForType(DlColorPalette colors) {
+    switch (type) {
+      case DlSnackbarType.success:
+        return colors.green.c600;
+      case DlSnackbarType.error:
+        return colors.red.c500;
+      case DlSnackbarType.warning:
+        return colors.yellow.c500;
+      case DlSnackbarType.information:
+        return colors.violet.c500;
     }
   }
 }

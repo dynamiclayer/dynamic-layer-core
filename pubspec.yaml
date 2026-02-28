@@ -28,6 +28,8 @@ flutter:
     - assets/icons/circle-check.svg
     - assets/icons/circle-x.svg
     - assets/icons/info.svg
+    - assets/icons/arrow-up.svg
+    - assets/icons/plus.svg
     - assets/icons/user.svg
     - assets/icons/avatar-image.png
     - assets/icons/placeholder.svg

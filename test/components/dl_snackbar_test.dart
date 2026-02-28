@@ -16,13 +16,17 @@ void main() {
     );
   }
 
-  testWidgets('renders white background, grey200 border and roundedMd', (tester) async {
+  testWidgets('renders white background, grey200 border and roundedMd', (
+    tester,
+  ) async {
     await pumpSnackbar(
       tester,
       child: const DlSnackbar(label: 'Saved successfully'),
     );
 
-    final container = tester.widget<Container>(find.byKey(const Key('dl_snackbar')));
+    final container = tester.widget<Container>(
+      find.byKey(const Key('dl_snackbar')),
+    );
     final decoration = container.decoration as BoxDecoration;
     final radius = decoration.borderRadius as BorderRadius;
     final border = decoration.border! as Border;
@@ -39,7 +43,9 @@ void main() {
       child: const DlSnackbar(label: 'Saved successfully'),
     );
 
-    final container = tester.widget<Container>(find.byKey(const Key('dl_snackbar')));
+    final container = tester.widget<Container>(
+      find.byKey(const Key('dl_snackbar')),
+    );
     expect(
       container.padding,
       const EdgeInsets.fromLTRB(
@@ -57,10 +63,15 @@ void main() {
       child: const DlSnackbar(label: 'Saved successfully'),
     );
 
-    final icon = tester.widget<DlAssetIcon>(find.byKey(const Key('dl_snackbar_icon')));
+    final icon = tester.widget<DlAssetIcon>(
+      find.byKey(const Key('dl_snackbar_icon')),
+    );
     expect(icon.assetPath, DlIcons.circleCheckAsset);
+    expect(icon.color, DlColorsLight.green600);
 
-    final label = tester.widget<Text>(find.byKey(const Key('dl_snackbar_label')));
+    final label = tester.widget<Text>(
+      find.byKey(const Key('dl_snackbar_label')),
+    );
     expect(label.style?.fontSize, DlTextStyles.textBase.semiBold.fontSize);
     expect(label.style?.fontWeight, DlTextStyles.textBase.semiBold.fontWeight);
     expect(label.style?.color, DlColorsLight.black);
@@ -75,41 +86,56 @@ void main() {
   });
 
   testWidgets('supports error, warning and information icons', (tester) async {
-    Future<void> expectIconForType(DlSnackbarType type, String iconPath) async {
+    Future<void> expectIconForType(
+      DlSnackbarType type,
+      String iconPath,
+      Color color,
+    ) async {
       await pumpSnackbar(
         tester,
-        child: DlSnackbar(
-          label: 'Message',
-          type: type,
-        ),
+        child: DlSnackbar(label: 'Message', type: type),
       );
-      final icon = tester.widget<DlAssetIcon>(find.byKey(const Key('dl_snackbar_icon')));
+      final icon = tester.widget<DlAssetIcon>(
+        find.byKey(const Key('dl_snackbar_icon')),
+      );
       expect(icon.assetPath, iconPath);
+      expect(icon.color, color);
     }
 
-    await expectIconForType(DlSnackbarType.error, DlIcons.circleAlertAsset);
+    await expectIconForType(
+      DlSnackbarType.error,
+      DlIcons.circleAlertAsset,
+      DlColorsLight.red500,
+    );
     await expectIconForType(
       DlSnackbarType.warning,
       DlIcons.alertTriangleFilledAsset,
+      DlColorsLight.yellow500,
     );
-    await expectIconForType(DlSnackbarType.information, DlIcons.infoAsset);
+    await expectIconForType(
+      DlSnackbarType.information,
+      DlIcons.infoAsset,
+      DlColorsLight.violet500,
+    );
   });
 
-  testWidgets('snackbar width hugs its content in stretched layout', (tester) async {
+  testWidgets('snackbar width hugs its content in stretched layout', (
+    tester,
+  ) async {
     await pumpSnackbar(
       tester,
       child: const SizedBox(
         width: 400,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            DlSnackbar(label: 'Short'),
-          ],
+          children: [DlSnackbar(label: 'Short')],
         ),
       ),
     );
 
-    final snackbarWidth = tester.getSize(find.byKey(const Key('dl_snackbar'))).width;
+    final snackbarWidth = tester
+        .getSize(find.byKey(const Key('dl_snackbar')))
+        .width;
     expect(snackbarWidth, lessThan(400));
   });
 }

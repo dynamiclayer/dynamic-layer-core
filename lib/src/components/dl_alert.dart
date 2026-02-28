@@ -63,6 +63,7 @@ class _DlAlertState extends State<DlAlert> {
           DlAssetIcon(
             key: const Key('dl_alert_variant_icon'),
             assetPath: _assetForVariant(widget.variant),
+            color: _iconColorForVariant(colors, widget.variant),
           ),
           const SizedBox(width: DlSpacingTokens.p_16),
           Expanded(child: textContentWrapper),
@@ -127,6 +128,19 @@ class _DlAlertState extends State<DlAlert> {
         return DlIcons.alertTriangleFilledAsset;
       case DlAlertVariant.error:
         return DlIcons.circleAlertAsset;
+    }
+  }
+
+  Color _iconColorForVariant(DlColorPalette colors, DlAlertVariant variant) {
+    switch (variant) {
+      case DlAlertVariant.info:
+        return colors.violet.c500;
+      case DlAlertVariant.success:
+        return colors.green.c600;
+      case DlAlertVariant.warning:
+        return colors.yellow.c500;
+      case DlAlertVariant.error:
+        return colors.red.c500;
     }
   }
 

@@ -423,7 +423,19 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildTopNavigationMessageSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildMessageDockSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildMessageLoadingSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildSnackbarSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildSkeletonSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildProgressSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildSliderSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildSegmentedControlSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildTabControlSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
@@ -668,10 +680,7 @@ class ButtonDemoScreen extends StatelessWidget {
             title: 'md / with description',
             description: 'Optional description text',
           ),
-          const DlCard(
-            icon: DlPlaceholderIcon(),
-            title: 'md / title only',
-          ),
+          const DlCard(icon: DlPlaceholderIcon(), title: 'md / title only'),
         ),
         const SizedBox(height: DlSpacingTokens.p_16),
         _buildCardPair(
@@ -813,17 +822,11 @@ class ButtonDemoScreen extends StatelessWidget {
         const SizedBox(height: DlSpacingTokens.p_16),
         const Text('Size mg'),
         const SizedBox(height: DlSpacingTokens.p_8),
-        const DlInput(
-          placeholder: 'Placeholder mg',
-          size: DlInputSize.mg,
-        ),
+        const DlInput(placeholder: 'Placeholder mg', size: DlInputSize.mg),
         const SizedBox(height: DlSpacingTokens.p_16),
         const Text('Size sm'),
         const SizedBox(height: DlSpacingTokens.p_8),
-        const DlInput(
-          placeholder: 'Placeholder sm',
-          size: DlInputSize.sm,
-        ),
+        const DlInput(placeholder: 'Placeholder sm', size: DlInputSize.sm),
         const SizedBox(height: DlSpacingTokens.p_16),
         const Text('Default / long placeholder (ellipsis)'),
         const SizedBox(height: DlSpacingTokens.p_8),
@@ -876,10 +879,7 @@ class ButtonDemoScreen extends StatelessWidget {
         const SizedBox(height: DlSpacingTokens.p_16),
         const Text('Disabled / default'),
         const SizedBox(height: DlSpacingTokens.p_8),
-        const DlInput(
-          placeholder: 'Disabled input',
-          enabled: false,
-        ),
+        const DlInput(placeholder: 'Disabled input', enabled: false),
         const SizedBox(height: DlSpacingTokens.p_16),
         const Text('Disabled / error'),
         const SizedBox(height: DlSpacingTokens.p_8),
@@ -913,17 +913,11 @@ class ButtonDemoScreen extends StatelessWidget {
         SizedBox(height: DlSpacingTokens.p_16),
         Text('Size md'),
         SizedBox(height: DlSpacingTokens.p_8),
-        DlSearchField(
-          placeholder: 'Search md...',
-          size: DlSearchFieldSize.md,
-        ),
+        DlSearchField(placeholder: 'Search md...', size: DlSearchFieldSize.md),
         SizedBox(height: DlSpacingTokens.p_16),
         Text('Size sm'),
         SizedBox(height: DlSpacingTokens.p_8),
-        DlSearchField(
-          placeholder: 'Search sm...',
-          size: DlSearchFieldSize.sm,
-        ),
+        DlSearchField(placeholder: 'Search sm...', size: DlSearchFieldSize.sm),
         SizedBox(height: DlSpacingTokens.p_16),
         Text('Type to show clear icon'),
         SizedBox(height: DlSpacingTokens.p_8),
@@ -938,10 +932,7 @@ class ButtonDemoScreen extends StatelessWidget {
         SizedBox(height: DlSpacingTokens.p_16),
         Text('Disabled'),
         SizedBox(height: DlSpacingTokens.p_8),
-        DlSearchField(
-          placeholder: 'Search disabled',
-          enabled: false,
-        ),
+        DlSearchField(placeholder: 'Search disabled', enabled: false),
       ],
     );
   }
@@ -965,10 +956,7 @@ class ButtonDemoScreen extends StatelessWidget {
         SizedBox(height: DlSpacingTokens.p_16),
         Text('Disabled'),
         SizedBox(height: DlSpacingTokens.p_8),
-        DlTextarea(
-          placeholder: 'Disabled textarea',
-          enabled: false,
-        ),
+        DlTextarea(placeholder: 'Disabled textarea', enabled: false),
       ],
     );
   }
@@ -988,7 +976,10 @@ class ButtonDemoScreen extends StatelessWidget {
             DlOTPInput(size: DlOtpInputSize.lg),
             DlOTPInput(size: DlOtpInputSize.lg, state: DlOtpInputState.error),
             DlOTPInput(size: DlOtpInputSize.lg, state: DlOtpInputState.success),
-            DlOTPInput(size: DlOtpInputSize.lg, state: DlOtpInputState.disabled),
+            DlOTPInput(
+              size: DlOtpInputSize.lg,
+              state: DlOtpInputState.disabled,
+            ),
           ],
         ),
         const SizedBox(height: DlSpacingTokens.p_16),
@@ -1002,7 +993,10 @@ class ButtonDemoScreen extends StatelessWidget {
             DlOTPInput(size: DlOtpInputSize.md),
             DlOTPInput(size: DlOtpInputSize.md, state: DlOtpInputState.error),
             DlOTPInput(size: DlOtpInputSize.md, state: DlOtpInputState.success),
-            DlOTPInput(size: DlOtpInputSize.md, state: DlOtpInputState.disabled),
+            DlOTPInput(
+              size: DlOtpInputSize.md,
+              state: DlOtpInputState.disabled,
+            ),
           ],
         ),
         const SizedBox(height: DlSpacingTokens.p_16),
@@ -1016,7 +1010,10 @@ class ButtonDemoScreen extends StatelessWidget {
             DlOTPInput(size: DlOtpInputSize.sm),
             DlOTPInput(size: DlOtpInputSize.sm, state: DlOtpInputState.error),
             DlOTPInput(size: DlOtpInputSize.sm, state: DlOtpInputState.success),
-            DlOTPInput(size: DlOtpInputSize.sm, state: DlOtpInputState.disabled),
+            DlOTPInput(
+              size: DlOtpInputSize.sm,
+              state: DlOtpInputState.disabled,
+            ),
           ],
         ),
       ],
@@ -1046,14 +1043,8 @@ class ButtonDemoScreen extends StatelessWidget {
             DlTag(label: 'Tag lg', size: DlTagSize.lg),
             DlTag(label: 'Tag md', size: DlTagSize.md),
             DlTag(label: 'Tag sm', size: DlTagSize.sm),
-            DlTag(
-              label: 'Tag / left icon',
-              iconLeft: DlPlaceholderIcon(),
-            ),
-            DlTag(
-              label: 'Tag / right icon',
-              iconRight: DlPlaceholderIcon(),
-            ),
+            DlTag(label: 'Tag / left icon', iconLeft: DlPlaceholderIcon()),
+            DlTag(label: 'Tag / right icon', iconRight: DlPlaceholderIcon()),
             DlTag(
               label: 'Tag / left + right',
               iconLeft: DlPlaceholderIcon(),
@@ -1075,10 +1066,7 @@ class ButtonDemoScreen extends StatelessWidget {
               iconLeft: DlPlaceholderIcon(),
               iconRight: DlPlaceholderIcon(),
             ),
-            DlTag(
-              label: 'Tag dark',
-              mode: DlTagMode.dark,
-            ),
+            DlTag(label: 'Tag dark', mode: DlTagMode.dark),
             DlTag(
               label: 'Tag dark / icons',
               mode: DlTagMode.dark,
@@ -1196,21 +1184,39 @@ class ButtonDemoScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildMessageDockSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlMessageDock examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlMessageDock(placeholder: 'Type a message...'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlMessageDock(placeholder: 'Without separator', showSeparator: false),
+      ],
+    );
+  }
+
+  Widget _buildMessageLoadingSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlMessageLoading examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Align(alignment: Alignment.centerLeft, child: DlMessageLoading()),
+      ],
+    );
+  }
+
   Widget _buildSnackbarSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: const [
         Text('DlSnackbar examples'),
         SizedBox(height: DlSpacingTokens.p_16),
-        DlSnackbar(
-          label: 'Saved successfully',
-          type: DlSnackbarType.success,
-        ),
+        DlSnackbar(label: 'Saved successfully', type: DlSnackbarType.success),
         SizedBox(height: DlSpacingTokens.p_16),
-        DlSnackbar(
-          label: 'Something went wrong',
-          type: DlSnackbarType.error,
-        ),
+        DlSnackbar(label: 'Something went wrong', type: DlSnackbarType.error),
         SizedBox(height: DlSpacingTokens.p_16),
         DlSnackbar(
           label: 'Please review this warning',
@@ -1224,6 +1230,109 @@ class ButtonDemoScreen extends StatelessWidget {
         SizedBox(height: DlSpacingTokens.p_16),
         DlSnackbar(
           label: 'Very long snackbar message that should truncate in one line.',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSkeletonSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlSkeleton examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSkeleton(height: 16),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSkeleton(width: 220, height: 24, rounded: DlRadiusTokens.roundedMd),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSkeleton(width: 120, height: 40, rounded: DlRadiusTokens.roundedFull),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DlSkeleton(
+              width: 56,
+              height: 56,
+              rounded: DlRadiusTokens.roundedFull,
+            ),
+            SizedBox(width: DlSpacingTokens.p_16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DlSkeleton(height: 20, rounded: DlRadiusTokens.roundedFull),
+                  SizedBox(height: DlSpacingTokens.p_16),
+                  FractionallySizedBox(
+                    widthFactor: 0.6,
+                    alignment: Alignment.centerLeft,
+                    child: DlSkeleton(
+                      height: 20,
+                      rounded: DlRadiusTokens.roundedFull,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSliderSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlSlider examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSlider(),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlSlider(initialValue: 0.5),
+      ],
+    );
+  }
+
+  Widget _buildProgressSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlProgress examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlProgress(value: 20),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlProgress(value: 50),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlProgress(value: 85),
+      ],
+    );
+  }
+
+  Widget _buildSegmentedControlSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('DlSegmentedControl examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        DlSegmentedControl(
+          tabs: const [
+            DlSegmentedControlTab(
+              label: 'One',
+              badge: DlBadge(size: DlBadgeSize.sm),
+            ),
+            DlSegmentedControlTab(label: 'Two'),
+            DlSegmentedControlTab(label: 'Three'),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        DlSegmentedControl(
+          tabs: const [
+            DlSegmentedControlTab(label: 'Profile'),
+            DlSegmentedControlTab(
+              label: 'Billing',
+              state: DlSegmentedControlTabState.disabled,
+            ),
+            DlSegmentedControlTab(label: 'Security'),
+          ],
         ),
       ],
     );
@@ -1249,10 +1358,19 @@ class ButtonDemoScreen extends StatelessWidget {
         const SizedBox(height: DlSpacingTokens.p_8),
         DlTabControl(
           tabs: const [
-            DlTabControlTab(label: 'All', badge: DlBadge(size: DlBadgeSize.sm)),
-            DlTabControlTab(label: 'Open', badge: DlBadge(size: DlBadgeSize.md, value: '8')),
+            DlTabControlTab(
+              label: 'All',
+              badge: DlBadge(size: DlBadgeSize.sm),
+            ),
+            DlTabControlTab(
+              label: 'Open',
+              badge: DlBadge(size: DlBadgeSize.md, value: '8'),
+            ),
             DlTabControlTab(label: 'Done'),
-            DlTabControlTab(label: 'Archived', badge: DlBadge(size: DlBadgeSize.md, value: '2')),
+            DlTabControlTab(
+              label: 'Archived',
+              badge: DlBadge(size: DlBadgeSize.md, value: '2'),
+            ),
           ],
         ),
         const SizedBox(height: DlSpacingTokens.p_16),
@@ -1261,7 +1379,10 @@ class ButtonDemoScreen extends StatelessWidget {
         DlTabControl(
           tabs: const [
             DlTabControlTab(label: 'Profile'),
-            DlTabControlTab(label: 'Billing', state: DlTabControlTabState.disabled),
+            DlTabControlTab(
+              label: 'Billing',
+              state: DlTabControlTabState.disabled,
+            ),
             DlTabControlTab(label: 'Security'),
           ],
         ),

@@ -12,10 +12,13 @@ abstract final class DlIcons {
       'packages/dynamiclayer_flutter/assets/icons/circle-alert.svg';
   static const String circleCheckAsset =
       'packages/dynamiclayer_flutter/assets/icons/circle-check.svg';
+  static const String arrowUpAsset =
+      'packages/dynamiclayer_flutter/assets/icons/arrow-up.svg';
   static const String circleXAsset =
       'packages/dynamiclayer_flutter/assets/icons/circle-x.svg';
   static const String infoAsset =
       'packages/dynamiclayer_flutter/assets/icons/info.svg';
+  static const String plusAsset = 'packages/dynamiclayer_flutter/assets/icons/plus.svg';
   static const String searchAsset =
       'packages/dynamiclayer_flutter/assets/icons/search.svg';
   static const String xAsset = 'packages/dynamiclayer_flutter/assets/icons/x.svg';
@@ -59,13 +62,15 @@ class DlAssetIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final effectiveColor = color ?? IconTheme.of(context).color;
+
     return SvgPicture.asset(
       assetPath,
       width: size,
       height: size,
-      colorFilter: color == null
+      colorFilter: effectiveColor == null
           ? null
-          : ColorFilter.mode(color!, BlendMode.srcIn),
+          : ColorFilter.mode(effectiveColor, BlendMode.srcIn),
     );
   }
 }

@@ -50,11 +50,23 @@ void main() {
   });
 
   testWidgets('renders variant-specific leading asset icons', (tester) async {
-    final cases = <DlAlertVariant, String>{
-      DlAlertVariant.info: DlIcons.infoAsset,
-      DlAlertVariant.success: DlIcons.circleCheckAsset,
-      DlAlertVariant.warning: DlIcons.alertTriangleFilledAsset,
-      DlAlertVariant.error: DlIcons.circleAlertAsset,
+    final cases = <DlAlertVariant, ({String iconPath, Color iconColor})>{
+      DlAlertVariant.info: (
+        iconPath: DlIcons.infoAsset,
+        iconColor: DlColorsLight.violet500,
+      ),
+      DlAlertVariant.success: (
+        iconPath: DlIcons.circleCheckAsset,
+        iconColor: DlColorsLight.green600,
+      ),
+      DlAlertVariant.warning: (
+        iconPath: DlIcons.alertTriangleFilledAsset,
+        iconColor: DlColorsLight.yellow500,
+      ),
+      DlAlertVariant.error: (
+        iconPath: DlIcons.circleAlertAsset,
+        iconColor: DlColorsLight.red500,
+      ),
     };
 
     for (final entry in cases.entries) {
@@ -66,7 +78,8 @@ void main() {
       final leadingIcon = tester.widget<DlAssetIcon>(
         find.byKey(const Key('dl_alert_variant_icon')),
       );
-      expect(leadingIcon.assetPath, entry.value);
+      expect(leadingIcon.assetPath, entry.value.iconPath);
+      expect(leadingIcon.color, entry.value.iconColor);
     }
   });
 

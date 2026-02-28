@@ -7,6 +7,7 @@ import '../theme/dl_color_palette.dart';
 import '../theme/dl_text_styles.dart';
 
 enum DlInputType { defaultType, error, success }
+
 enum DlInputSize { lg, mg, sm }
 
 class DlInput extends StatefulWidget {
@@ -50,7 +51,8 @@ class _DlInputState extends State<DlInput> {
   TextEditingController? _internalController;
 
   FocusNode get _focusNode => widget.focusNode ?? _internalFocusNode!;
-  TextEditingController get _controller => widget.controller ?? _internalController!;
+  TextEditingController get _controller =>
+      widget.controller ?? _internalController!;
 
   bool get _isActive => widget.enabled && _focusNode.hasFocus;
   bool get _isFilled => _controller.text.isNotEmpty;
@@ -62,8 +64,9 @@ class _DlInputState extends State<DlInput> {
   void initState() {
     super.initState();
     _internalFocusNode = widget.focusNode == null ? FocusNode() : null;
-    _internalController =
-        widget.controller == null ? TextEditingController() : null;
+    _internalController = widget.controller == null
+        ? TextEditingController()
+        : null;
     _focusNode.addListener(_handleFocusChanged);
     _controller.addListener(_handleTextChanged);
   }
@@ -88,8 +91,9 @@ class _DlInputState extends State<DlInput> {
         _internalController?.dispose();
         _internalController = null;
       }
-      _internalController =
-          widget.controller == null ? TextEditingController() : null;
+      _internalController = widget.controller == null
+          ? TextEditingController()
+          : null;
       _controller.addListener(_handleTextChanged);
     }
   }
@@ -117,7 +121,7 @@ class _DlInputState extends State<DlInput> {
     final inputContent = _buildInputContent(colors);
     final helperText = _errorHelperText;
     final showErrorHelper = helperText != null;
-    final rightIcon = _effectiveRightIcon;
+    final rightIcon = _effectiveRightIcon(colors);
     final shouldTintRightIcon = !_usesFixedTypeRightIcon;
 
     return Column(
@@ -220,17 +224,19 @@ class _DlInputState extends State<DlInput> {
 
   bool get _usesFixedTypeRightIcon => _isErrorType || _isSuccessType;
 
-  Widget? get _effectiveRightIcon {
+  Widget? _effectiveRightIcon(DlColorPalette colors) {
     if (_isErrorType) {
-      return const DlAssetIcon(
-        key: Key('dl_input_type_icon_error'),
+      return DlAssetIcon(
+        key: const Key('dl_input_type_icon_error'),
         assetPath: DlIcons.circleAlertAsset,
+        color: colors.red.c500,
       );
     }
     if (_isSuccessType) {
-      return const DlAssetIcon(
-        key: Key('dl_input_type_icon_success'),
+      return DlAssetIcon(
+        key: const Key('dl_input_type_icon_success'),
         assetPath: DlIcons.circleCheckAsset,
+        color: colors.green.c600,
       );
     }
     return widget.iconRight;

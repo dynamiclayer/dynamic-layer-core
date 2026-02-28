@@ -16,11 +16,10 @@ void main() {
     );
   }
 
-  testWidgets('uses grey100 background, roundedMd and p16 padding', (tester) async {
-    await pumpInput(
-      tester,
-      input: const DlInput(placeholder: 'Placeholder'),
-    );
+  testWidgets('uses grey100 background, roundedMd and p16 padding', (
+    tester,
+  ) async {
+    await pumpInput(tester, input: const DlInput(placeholder: 'Placeholder'));
 
     final container = tester.widget<Container>(
       find.byKey(const Key('dl_input_container')),
@@ -38,10 +37,7 @@ void main() {
   ) async {
     await pumpInput(
       tester,
-      input: const DlInput(
-        placeholder: 'Placeholder',
-        size: DlInputSize.mg,
-      ),
+      input: const DlInput(placeholder: 'Placeholder', size: DlInputSize.mg),
     );
 
     final container = tester.widget<Container>(
@@ -61,10 +57,7 @@ void main() {
   ) async {
     await pumpInput(
       tester,
-      input: const DlInput(
-        placeholder: 'Placeholder',
-        size: DlInputSize.sm,
-      ),
+      input: const DlInput(placeholder: 'Placeholder', size: DlInputSize.sm),
     );
 
     final container = tester.widget<Container>(
@@ -142,10 +135,7 @@ void main() {
 
       await pumpInput(
         tester,
-        input: DlInput(
-          placeholder: 'Your placeholder',
-          focusNode: focusNode,
-        ),
+        input: DlInput(placeholder: 'Your placeholder', focusNode: focusNode),
       );
 
       await tester.tap(find.byKey(const Key('dl_input_text_field')));
@@ -252,7 +242,9 @@ void main() {
     );
   });
 
-  testWidgets('error type keeps active stacked placeholder red500', (tester) async {
+  testWidgets('error type keeps active stacked placeholder red500', (
+    tester,
+  ) async {
     final focusNode = FocusNode();
     addTearDown(focusNode.dispose);
 
@@ -315,6 +307,7 @@ void main() {
       find.byKey(const Key('dl_input_type_icon_error')),
     );
     expect(errorIcon.assetPath, DlIcons.circleAlertAsset);
+    expect(errorIcon.color, DlColorsLight.red500);
   });
 
   testWidgets('success type shows fixed circle-check icon on right side', (
@@ -332,9 +325,12 @@ void main() {
       find.byKey(const Key('dl_input_type_icon_success')),
     );
     expect(successIcon.assetPath, DlIcons.circleCheckAsset);
+    expect(successIcon.color, DlColorsLight.green600);
   });
 
-  testWidgets('fixed type icon overrides optional custom right icon', (tester) async {
+  testWidgets('fixed type icon overrides optional custom right icon', (
+    tester,
+  ) async {
     await pumpInput(
       tester,
       input: const DlInput(
@@ -348,43 +344,55 @@ void main() {
     expect(find.byKey(const Key('dl_input_type_icon_error')), findsOneWidget);
   });
 
-  testWidgets('error helper text is configurable and always visible for error type', (
-    tester,
-  ) async {
-    final focusNode = FocusNode();
-    final controller = TextEditingController();
-    addTearDown(focusNode.dispose);
-    addTearDown(controller.dispose);
+  testWidgets(
+    'error helper text is configurable and always visible for error type',
+    (tester) async {
+      final focusNode = FocusNode();
+      final controller = TextEditingController();
+      addTearDown(focusNode.dispose);
+      addTearDown(controller.dispose);
 
-    await pumpInput(
-      tester,
-      input: DlInput(
-        placeholder: 'Error placeholder',
-        type: DlInputType.error,
-        errorHelperText: 'Custom helper',
-        focusNode: focusNode,
-        controller: controller,
-      ),
-    );
+      await pumpInput(
+        tester,
+        input: DlInput(
+          placeholder: 'Error placeholder',
+          type: DlInputType.error,
+          errorHelperText: 'Custom helper',
+          focusNode: focusNode,
+          controller: controller,
+        ),
+      );
 
-    Text helper() => tester.widget<Text>(find.byKey(const Key('dl_input_error_helper_text')));
+      Text helper() => tester.widget<Text>(
+        find.byKey(const Key('dl_input_error_helper_text')),
+      );
 
-    expect(helper().data, 'Custom helper');
-    expect(helper().style?.fontSize, DlTextStyles.textSm.medium.fontSize);
-    expect(helper().style?.fontWeight, DlTextStyles.textSm.medium.fontWeight);
-    expect(helper().style?.color, DlColorsLight.red500);
-    expect(helper().maxLines, isNull);
+      expect(helper().data, 'Custom helper');
+      expect(helper().style?.fontSize, DlTextStyles.textSm.medium.fontSize);
+      expect(helper().style?.fontWeight, DlTextStyles.textSm.medium.fontWeight);
+      expect(helper().style?.color, DlColorsLight.red500);
+      expect(helper().maxLines, isNull);
 
-    await tester.tap(find.byKey(const Key('dl_input_text_field')));
-    await tester.pump();
-    expect(find.byKey(const Key('dl_input_error_helper_text')), findsOneWidget);
+      await tester.tap(find.byKey(const Key('dl_input_text_field')));
+      await tester.pump();
+      expect(
+        find.byKey(const Key('dl_input_error_helper_text')),
+        findsOneWidget,
+      );
 
-    await tester.enterText(find.byKey(const Key('dl_input_text_field')), 'abc');
-    await tester.pump();
-    await tester.tapAt(const Offset(5, 5));
-    await tester.pump();
-    expect(find.byKey(const Key('dl_input_error_helper_text')), findsOneWidget);
-  });
+      await tester.enterText(
+        find.byKey(const Key('dl_input_text_field')),
+        'abc',
+      );
+      await tester.pump();
+      await tester.tapAt(const Offset(5, 5));
+      await tester.pump();
+      expect(
+        find.byKey(const Key('dl_input_error_helper_text')),
+        findsOneWidget,
+      );
+    },
+  );
 
   testWidgets(
     'filled state keeps stacked placeholder and value visible without black stroke',
@@ -420,7 +428,10 @@ void main() {
       final border = decoration.border as Border;
 
       expect(focusNode.hasFocus, isFalse);
-      expect(find.byKey(const Key('dl_input_active_placeholder')), findsOneWidget);
+      expect(
+        find.byKey(const Key('dl_input_active_placeholder')),
+        findsOneWidget,
+      );
       expect(find.text('Hello'), findsOneWidget);
       expect(border.top.width, 2);
       expect(border.top.color, Colors.transparent);
@@ -434,41 +445,43 @@ void main() {
     },
   );
 
-  testWidgets(
-    'filled returns to default when value becomes empty',
-    (tester) async {
-      final focusNode = FocusNode();
-      final controller = TextEditingController(text: 'Hello');
-      addTearDown(focusNode.dispose);
-      addTearDown(controller.dispose);
+  testWidgets('filled returns to default when value becomes empty', (
+    tester,
+  ) async {
+    final focusNode = FocusNode();
+    final controller = TextEditingController(text: 'Hello');
+    addTearDown(focusNode.dispose);
+    addTearDown(controller.dispose);
 
-      await pumpInput(
-        tester,
-        input: DlInput(
-          placeholder: 'Your placeholder',
-          focusNode: focusNode,
-          controller: controller,
-        ),
-      );
-      await tester.pump();
+    await pumpInput(
+      tester,
+      input: DlInput(
+        placeholder: 'Your placeholder',
+        focusNode: focusNode,
+        controller: controller,
+      ),
+    );
+    await tester.pump();
 
-      // With initial text and no focus, stacked placeholder is visible.
-      expect(find.byKey(const Key('dl_input_active_placeholder')), findsOneWidget);
+    // With initial text and no focus, stacked placeholder is visible.
+    expect(
+      find.byKey(const Key('dl_input_active_placeholder')),
+      findsOneWidget,
+    );
 
-      final fieldFinder = find.byKey(const Key('dl_input_text_field'));
-      await tester.tap(fieldFinder);
-      await tester.pump();
-      await tester.enterText(fieldFinder, '');
-      await tester.pump();
-      await tester.tapAt(const Offset(5, 5));
-      await tester.pump();
+    final fieldFinder = find.byKey(const Key('dl_input_text_field'));
+    await tester.tap(fieldFinder);
+    await tester.pump();
+    await tester.enterText(fieldFinder, '');
+    await tester.pump();
+    await tester.tapAt(const Offset(5, 5));
+    await tester.pump();
 
-      final textField = tester.widget<TextField>(fieldFinder);
-      expect(focusNode.hasFocus, isFalse);
-      expect(find.byKey(const Key('dl_input_active_placeholder')), findsNothing);
-      expect(textField.decoration?.hintText, 'Your placeholder');
-    },
-  );
+    final textField = tester.widget<TextField>(fieldFinder);
+    expect(focusNode.hasFocus, isFalse);
+    expect(find.byKey(const Key('dl_input_active_placeholder')), findsNothing);
+    expect(textField.decoration?.hintText, 'Your placeholder');
+  });
 
   testWidgets('mg size uses p4 vertical in filled state', (tester) async {
     final focusNode = FocusNode();
@@ -552,10 +565,7 @@ void main() {
 
       await pumpInput(
         tester,
-        input: DlInput(
-          placeholder: 'Placeholder',
-          focusNode: focusNode,
-        ),
+        input: DlInput(placeholder: 'Placeholder', focusNode: focusNode),
       );
 
       final fieldFinder = find.byKey(const Key('dl_input_text_field'));
@@ -569,7 +579,9 @@ void main() {
     },
   );
 
-  testWidgets('renders optional left and right icons with p16 gap', (tester) async {
+  testWidgets('renders optional left and right icons with p16 gap', (
+    tester,
+  ) async {
     await pumpInput(
       tester,
       input: const DlInput(
@@ -591,18 +603,16 @@ void main() {
     expect(rightTheme.data.color, DlColorsLight.grey500);
     expect(
       find.byWidgetPredicate(
-        (widget) =>
-            widget is SizedBox && widget.width == DlSpacingTokens.p_16,
+        (widget) => widget is SizedBox && widget.width == DlSpacingTokens.p_16,
       ),
       findsNWidgets(2),
     );
   });
 
-  testWidgets('can focus and enter text like normal input field', (tester) async {
-    await pumpInput(
-      tester,
-      input: const DlInput(placeholder: 'Placeholder'),
-    );
+  testWidgets('can focus and enter text like normal input field', (
+    tester,
+  ) async {
+    await pumpInput(tester, input: const DlInput(placeholder: 'Placeholder'));
 
     final fieldFinder = find.byKey(const Key('dl_input_text_field'));
     await tester.tap(fieldFinder);
@@ -619,10 +629,7 @@ void main() {
 
     await pumpInput(
       tester,
-      input: DlInput(
-        placeholder: 'Placeholder',
-        focusNode: focusNode,
-      ),
+      input: DlInput(placeholder: 'Placeholder', focusNode: focusNode),
     );
 
     final fieldFinder = find.byKey(const Key('dl_input_text_field'));
@@ -671,10 +678,7 @@ void main() {
 
     await pumpInput(
       tester,
-      input: DlInput(
-        placeholder: 'Placeholder',
-        focusNode: focusNode,
-      ),
+      input: DlInput(placeholder: 'Placeholder', focusNode: focusNode),
     );
 
     expect(focusNode.hasFocus, isFalse);
