@@ -401,6 +401,10 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildCardSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildBottomSheetSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildBottomNavigationSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildCheckboxSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildRadioButtonSection(),
@@ -426,6 +430,8 @@ class ButtonDemoScreen extends StatelessWidget {
               _buildMessageDockSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildMessageLoadingSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildLoadingDotsSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildSnackbarSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
@@ -526,6 +532,121 @@ class ButtonDemoScreen extends StatelessWidget {
         Text(label),
         const SizedBox(height: DlSpacingTokens.p_8),
         child,
+      ],
+    );
+  }
+
+  Widget _buildBottomSheetSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlBottomSheet examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlBottomSheet(
+          headerTitle: 'Complete your profile',
+          contentTitle: 'Add your details',
+          contentDescription:
+              'Finish your profile to unlock all Dynamic Layer features.',
+          primaryButtonLabel: 'Continue',
+          secondaryButtonLabel: 'Not now',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBottomNavigationSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('DlBottomNavigation examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Badge sm + labels + separator'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlBottomNavigation(
+          tabs: [
+            DlBottomNavigationTab(
+              text: 'Home',
+              badge: DlBadge(size: DlBadgeSize.sm),
+            ),
+            DlBottomNavigationTab(text: 'Search'),
+            DlBottomNavigationTab(text: 'Profile'),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Badge md + labels + separator'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlBottomNavigation(
+          tabs: [
+            DlBottomNavigationTab(
+              text: 'Inbox',
+              badge: DlBadge(size: DlBadgeSize.md, value: '12'),
+            ),
+            DlBottomNavigationTab(text: 'Updates'),
+            DlBottomNavigationTab(text: 'Settings'),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('No separator + mixed (sm + md) badges'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlBottomNavigation(
+          showSeparator: false,
+          tabs: [
+            DlBottomNavigationTab(
+              text: 'Alerts',
+              badge: DlBadge(size: DlBadgeSize.sm),
+            ),
+            DlBottomNavigationTab(
+              text: 'Messages',
+              badge: DlBadge(size: DlBadgeSize.md, value: '3'),
+            ),
+            DlBottomNavigationTab(text: 'Profile'),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('No separator + icon only tabs'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlBottomNavigation(
+          showSeparator: false,
+          tabs: [
+            DlBottomNavigationTab(badge: DlBadge(size: DlBadgeSize.sm)),
+            DlBottomNavigationTab(),
+            DlBottomNavigationTab(
+              badge: DlBadge(size: DlBadgeSize.md, value: '99'),
+            ),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Very long tab labels'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlBottomNavigation(
+          tabs: [
+            DlBottomNavigationTab(
+              text: 'Super long home tab label that should truncate',
+            ),
+            DlBottomNavigationTab(
+              text: 'Another very very long profile label for testing',
+            ),
+            DlBottomNavigationTab(
+              text: 'Extremely long settings tab label in one line',
+            ),
+          ],
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('5 tabs variation'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlBottomNavigation(
+          showSeparator: false,
+          tabs: [
+            DlBottomNavigationTab(text: 'Home'),
+            DlBottomNavigationTab(
+              text: 'Inbox',
+              badge: DlBadge(size: DlBadgeSize.md, value: '4'),
+            ),
+            DlBottomNavigationTab(text: 'Search'),
+            DlBottomNavigationTab(text: 'Profile'),
+            DlBottomNavigationTab(text: 'Settings'),
+          ],
+        ),
       ],
     );
   }
@@ -1204,6 +1325,17 @@ class ButtonDemoScreen extends StatelessWidget {
         Text('DlMessageLoading examples'),
         SizedBox(height: DlSpacingTokens.p_16),
         Align(alignment: Alignment.centerLeft, child: DlMessageLoading()),
+      ],
+    );
+  }
+
+  Widget _buildLoadingDotsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlLoadingDots examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Align(alignment: Alignment.centerLeft, child: DlLoadingDots()),
       ],
     );
   }
