@@ -401,7 +401,7 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildCardSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
-              _buildBottomSheetSection(),
+              _buildBottomSheetSection(context),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildBottomNavigationSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
@@ -536,23 +536,132 @@ class ButtonDemoScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomSheetSection() {
+  Widget _buildBottomSheetSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: const [
-        Text('DlBottomSheet examples'),
-        SizedBox(height: DlSpacingTokens.p_16),
-        DlBottomSheet(
-          headerTitle: 'Complete your profile',
-          contentTitle: 'Add your details',
-          contentDescription:
-              'Finish your profile to unlock all Dynamic Layer features.',
-          primaryButtonLabel: 'Continue',
-          secondaryButtonLabel: 'Not now',
+      children: [
+        const Text('DlBottomSheet examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Trigger: doubleButton'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlButton(
+          label: 'Open doubleButton bottom sheet',
+          onPressed: () => _openBottomSheet(
+            context,
+            headerTitle: 'Complete your profile',
+            contentTitle: 'Add your details',
+            contentDescription:
+                'Finish your profile to unlock all Dynamic Layer features.',
+            buttons: const [
+              DlButton(
+                label: 'Continue',
+                type: DlButtonType.primary,
+                fullWidth: true,
+                onPressed: _noop,
+              ),
+              DlButton(
+                label: 'Not now',
+                type: DlButtonType.secondary,
+                fullWidth: true,
+                onPressed: _noop,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Trigger: singleButton'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlButton(
+          label: 'Open singleButton bottom sheet',
+          type: DlButtonType.secondary,
+          onPressed: () => _openBottomSheet(
+            context,
+            headerTitle: 'Single action',
+            contentTitle: 'One primary action',
+            contentDescription:
+                'Use this variant when only one action is needed.',
+            buttons: const [
+              DlButton(
+                label: 'Continue',
+                type: DlButtonType.primary,
+                fullWidth: true,
+                onPressed: _noop,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Trigger: default (no buttons)'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlButton(
+          label: 'Open default bottom sheet',
+          type: DlButtonType.tertiary,
+          onPressed: () => _openBottomSheet(
+            context,
+            headerTitle: 'Info only',
+            contentTitle: 'Read before continuing',
+            contentDescription:
+                'This variant has no button wrapper and is content focused.',
+          ),
         ),
       ],
     );
   }
+
+  Future<void> _openBottomSheet(
+    BuildContext context, {
+    required String headerTitle,
+    String? contentTitle,
+    String? contentDescription,
+    List<DlButton> buttons = const [],
+  }) {
+    return showModalBottomSheet<void>(
+      context: context,
+      isDismissible: true,
+      enableDrag: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        final colors = sheetContext.dlColors;
+        final bottomSafeInset = MediaQuery.paddingOf(sheetContext).bottom;
+        return SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DlBottomSheet(
+                headerTitle: headerTitle,
+                contentTitle: contentTitle,
+                contentDescription: contentDescription,
+                buttons: buttons
+                    .map(
+                      (button) => DlButton(
+                        key: button.key,
+                        label: button.label,
+                        onPressed: () => Navigator.of(sheetContext).pop(),
+                        type: button.type,
+                        size: button.size,
+                        state: button.state,
+                        iconLeft: button.iconLeft,
+                        iconRight: button.iconRight,
+                        fullWidth: button.fullWidth,
+                      ),
+                    )
+                    .toList(),
+              ),
+              if (bottomSafeInset > 0)
+                SizedBox(
+                  height: bottomSafeInset,
+                  width: double.infinity,
+                  child: ColoredBox(color: colors.white),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  static void _noop() {}
 
   Widget _buildBottomNavigationSection() {
     return Column(

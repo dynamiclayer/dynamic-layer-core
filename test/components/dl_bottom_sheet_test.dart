@@ -17,20 +17,16 @@ void main() {
   }
 
   DlBottomSheet buildSheet({
-    VoidCallback? onHeaderIconPressed,
-    VoidCallback? onPrimaryPressed,
-    VoidCallback? onSecondaryPressed,
     Widget? contentMedia,
+    String? contentTitle = 'Content title',
+    String? contentDescription = 'Content description',
+    List<DlButton> buttons = const [],
   }) {
     return DlBottomSheet(
       headerTitle: 'Bottom Sheet Title',
-      contentTitle: 'Content title',
-      contentDescription: 'Content description',
-      primaryButtonLabel: 'Primary',
-      secondaryButtonLabel: 'Secondary',
-      onHeaderIconPressed: onHeaderIconPressed,
-      onPrimaryPressed: onPrimaryPressed,
-      onSecondaryPressed: onSecondaryPressed,
+      contentTitle: contentTitle,
+      contentDescription: contentDescription,
+      buttons: buttons,
       contentMedia: contentMedia,
     );
   }
@@ -72,20 +68,15 @@ void main() {
       headerTitle.style?.fontSize,
       DlTextStyles.textBase.semiBold.fontSize,
     );
-    expect(find.byType(DlPlaceholderIcon), findsOneWidget);
+    final rightIcon = tester.widget<DlAssetIcon>(find.byType(DlAssetIcon));
+    expect(rightIcon.assetPath, DlIcons.xAsset);
   });
 
-  testWidgets('right header box is clickable', (tester) async {
-    var tapped = false;
-    await pumpBottomSheet(
-      tester,
-      bottomSheet: buildSheet(onHeaderIconPressed: () => tapped = true),
-    );
-
+  testWidgets('right header box is tappable', (tester) async {
+    await pumpBottomSheet(tester, bottomSheet: buildSheet());
     await tester.tap(find.byKey(const Key('dl_bottom_sheet_header_right_tap')));
     await tester.pump();
-
-    expect(tapped, isTrue);
+    expect(find.byKey(const Key('dl_bottom_sheet')), findsOneWidget);
   });
 
   testWidgets('content uses required paddings and text styles', (tester) async {
@@ -103,9 +94,13 @@ void main() {
       ),
     );
 
-    final sheetWidth = tester.getSize(find.byKey(const Key('dl_bottom_sheet'))).width;
-    final mediaSize = tester.getSize(find.byKey(const Key('dl_bottom_sheet_media')));
-    expect(mediaSize.height, 12);
+    final sheetWidth = tester
+        .getSize(find.byKey(const Key('dl_bottom_sheet')))
+        .width;
+    final mediaSize = tester.getSize(
+      find.byKey(const Key('dl_bottom_sheet_media')),
+    );
+    expect(mediaSize.height, 120);
     expect(mediaSize.width, sheetWidth - (DlSpacingTokens.p_16 * 2));
 
     final textBox = tester.widget<Padding>(
@@ -125,10 +120,22 @@ void main() {
     final description = tester.widget<Text>(
       find.byKey(const Key('dl_bottom_sheet_content_description')),
     );
+    expect(title.textAlign, TextAlign.center);
+    expect(description.textAlign, TextAlign.center);
+    expect(title.maxLines, isNull);
+    expect(description.maxLines, isNull);
     expect(title.style?.fontSize, DlTextStyles.textXl.semiBold.fontSize);
     expect(title.style?.color, DlColorsLight.black);
     expect(description.style?.fontSize, DlTextStyles.textBase.regular.fontSize);
     expect(description.style?.color, DlColorsLight.grey500);
+
+    final textGapFinder = find.descendant(
+      of: find.byKey(const Key('dl_bottom_sheet_text_box')),
+      matching: find.byWidgetPredicate(
+        (widget) => widget is SizedBox && widget.height == DlSpacingTokens.p_8,
+      ),
+    );
+    expect(textGapFinder, findsOneWidget);
   });
 
   testWidgets('supports custom content media widget', (tester) async {
@@ -145,14 +152,35 @@ void main() {
     expect(find.byKey(const Key('custom_media')), findsOneWidget);
   });
 
-  testWidgets('button wrapper has two vertical buttons with p16 gap', (
+  testWidgets('button wrapper has vertical buttons with p16 gap', (
     tester,
   ) async {
-    await pumpBottomSheet(tester, bottomSheet: buildSheet());
+    await pumpBottomSheet(
+      tester,
+      bottomSheet: buildSheet(
+        buttons: const [
+          DlButton(
+            key: Key('dl_bottom_sheet_button_0'),
+            label: 'Primary',
+            type: DlButtonType.primary,
+            fullWidth: true,
+            onPressed: _noop,
+          ),
+          DlButton(
+            key: Key('dl_bottom_sheet_button_1'),
+            label: 'Secondary',
+            type: DlButtonType.secondary,
+            fullWidth: true,
+            onPressed: _noop,
+          ),
+        ],
+      ),
+    );
 
     final wrapper = tester.widget<Container>(
       find.byKey(const Key('dl_bottom_sheet_button_wrapper')),
     );
+    expect(wrapper.color, isNull);
     expect(
       wrapper.padding,
       const EdgeInsets.only(
@@ -164,10 +192,10 @@ void main() {
     );
 
     final primary = tester.widget<DlButton>(
-      find.byKey(const Key('dl_bottom_sheet_primary_button')),
+      find.byKey(const Key('dl_bottom_sheet_button_0')),
     );
     final secondary = tester.widget<DlButton>(
-      find.byKey(const Key('dl_bottom_sheet_secondary_button')),
+      find.byKey(const Key('dl_bottom_sheet_button_1')),
     );
     expect(primary.type, DlButtonType.primary);
     expect(secondary.type, DlButtonType.secondary);
@@ -189,17 +217,106 @@ void main() {
     await pumpBottomSheet(
       tester,
       bottomSheet: buildSheet(
-        onPrimaryPressed: () => primaryTapped = true,
-        onSecondaryPressed: () => secondaryTapped = true,
+        buttons: [
+          DlButton(
+            key: const Key('dl_bottom_sheet_button_0'),
+            label: 'Primary',
+            type: DlButtonType.primary,
+            fullWidth: true,
+            onPressed: () => primaryTapped = true,
+          ),
+          DlButton(
+            key: const Key('dl_bottom_sheet_button_1'),
+            label: 'Secondary',
+            type: DlButtonType.secondary,
+            fullWidth: true,
+            onPressed: () => secondaryTapped = true,
+          ),
+        ],
       ),
     );
 
-    await tester.tap(find.byKey(const Key('dl_bottom_sheet_primary_button')));
+    await tester.tap(find.byKey(const Key('dl_bottom_sheet_button_0')));
     await tester.pump();
-    await tester.tap(find.byKey(const Key('dl_bottom_sheet_secondary_button')));
+    await tester.tap(find.byKey(const Key('dl_bottom_sheet_button_1')));
     await tester.pump();
 
     expect(primaryTapped, isTrue);
     expect(secondaryTapped, isTrue);
   });
+
+  testWidgets('no buttons does not render button wrapper', (tester) async {
+    await pumpBottomSheet(tester, bottomSheet: buildSheet(buttons: const []));
+
+    expect(
+      find.byKey(const Key('dl_bottom_sheet_button_wrapper')),
+      findsNothing,
+    );
+  });
+
+  testWidgets('content title and description are optional', (tester) async {
+    await pumpBottomSheet(
+      tester,
+      bottomSheet: buildSheet(contentTitle: null, contentDescription: null),
+    );
+
+    expect(find.byKey(const Key('dl_bottom_sheet_text_box')), findsNothing);
+    expect(
+      find.byKey(const Key('dl_bottom_sheet_content_title')),
+      findsNothing,
+    );
+    expect(
+      find.byKey(const Key('dl_bottom_sheet_content_description')),
+      findsNothing,
+    );
+  });
+
+  testWidgets('supports fully customizable button list', (tester) async {
+    await pumpBottomSheet(
+      tester,
+      bottomSheet: buildSheet(
+        buttons: const [
+          DlButton(
+            key: Key('dl_bottom_sheet_custom_btn_0'),
+            label: 'Primary large',
+            type: DlButtonType.primary,
+            size: DlButtonSize.lg,
+            onPressed: _noop,
+          ),
+          DlButton(
+            key: Key('dl_bottom_sheet_custom_btn_1'),
+            label: 'Secondary small',
+            type: DlButtonType.secondary,
+            size: DlButtonSize.sm,
+            onPressed: _noop,
+          ),
+          DlButton(
+            key: Key('dl_bottom_sheet_custom_btn_2'),
+            label: 'Ghost xs',
+            type: DlButtonType.ghost,
+            size: DlButtonSize.xs,
+            onPressed: _noop,
+          ),
+        ],
+      ),
+    );
+
+    final button0 = tester.widget<DlButton>(
+      find.byKey(const Key('dl_bottom_sheet_custom_btn_0')),
+    );
+    final button1 = tester.widget<DlButton>(
+      find.byKey(const Key('dl_bottom_sheet_custom_btn_1')),
+    );
+    final button2 = tester.widget<DlButton>(
+      find.byKey(const Key('dl_bottom_sheet_custom_btn_2')),
+    );
+    expect(button0.type, DlButtonType.primary);
+    expect(button0.size, DlButtonSize.lg);
+    expect(button1.type, DlButtonType.secondary);
+    expect(button1.size, DlButtonSize.sm);
+    expect(button2.type, DlButtonType.ghost);
+    expect(button2.size, DlButtonSize.xs);
+  });
 }
+
+void _noop() {}

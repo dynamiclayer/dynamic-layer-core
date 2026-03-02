@@ -68,6 +68,7 @@ void main() {
     );
     expect(icon.assetPath, DlIcons.userAsset);
     expect(icon.size, 24);
+    expect(icon.color, DlColorsLight.grey500);
   });
 
   testWidgets('uses 16x16 user icon for xs size', (tester) async {

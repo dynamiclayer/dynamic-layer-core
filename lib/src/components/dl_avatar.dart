@@ -45,6 +45,7 @@ class DlAvatar extends StatelessWidget {
             key: Key('dl_avatar_icon'),
             assetPath: DlIcons.userAsset,
             size: _iconDimensionForSize(),
+            color: colors.grey.c500,
           ),
           DlAvatarType.initials => Text(
             initials,

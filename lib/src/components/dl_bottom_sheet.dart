@@ -10,27 +10,17 @@ import 'dl_button.dart';
 class DlBottomSheet extends StatelessWidget {
   const DlBottomSheet({
     required this.headerTitle,
-    required this.contentTitle,
-    required this.contentDescription,
-    required this.primaryButtonLabel,
-    required this.secondaryButtonLabel,
     super.key,
-    this.onHeaderIconPressed,
-    this.onPrimaryPressed,
-    this.onSecondaryPressed,
-    this.headerRightIcon,
+    this.contentTitle,
+    this.contentDescription,
+    this.buttons = const [],
     this.contentMedia,
   });
 
   final String headerTitle;
-  final String contentTitle;
-  final String contentDescription;
-  final String primaryButtonLabel;
-  final String secondaryButtonLabel;
-  final VoidCallback? onHeaderIconPressed;
-  final VoidCallback? onPrimaryPressed;
-  final VoidCallback? onSecondaryPressed;
-  final Widget? headerRightIcon;
+  final String? contentTitle;
+  final String? contentDescription;
+  final List<DlButton> buttons;
   final Widget? contentMedia;
 
   @override
@@ -51,18 +41,17 @@ class DlBottomSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildHeader(colors),
+          _buildHeader(context, colors),
           _buildContent(colors),
-          _buildButtonWrapper(),
+          if (buttons.isNotEmpty) _buildButtonWrapper(),
         ],
       ),
     );
   }
 
-  Widget _buildHeader(DlColorPalette colors) {
+  Widget _buildHeader(BuildContext context, DlColorPalette colors) {
     return Container(
       key: const Key('dl_bottom_sheet_header'),
-      color: colors.white,
       child: Row(
         children: [
           const SizedBox(
@@ -90,7 +79,7 @@ class DlBottomSheet extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 key: const Key('dl_bottom_sheet_header_right_tap'),
-                onTap: onHeaderIconPressed,
+                onTap: () => Navigator.of(context).maybePop(),
                 splashFactory: NoSplash.splashFactory,
                 overlayColor: WidgetStateProperty.all(Colors.transparent),
                 splashColor: Colors.transparent,
@@ -100,7 +89,7 @@ class DlBottomSheet extends StatelessWidget {
                 child: Center(
                   child: IconTheme(
                     data: IconThemeData(color: colors.black),
-                    child: headerRightIcon ?? const DlPlaceholderIcon(),
+                    child: const DlAssetIcon(assetPath: DlIcons.xAsset),
                   ),
                 ),
               ),
@@ -112,9 +101,12 @@ class DlBottomSheet extends StatelessWidget {
   }
 
   Widget _buildContent(DlColorPalette colors) {
+    final hasTitle = contentTitle != null && contentTitle!.isNotEmpty;
+    final hasDescription =
+        contentDescription != null && contentDescription!.isNotEmpty;
+
     return Container(
       key: const Key('dl_bottom_sheet_content'),
-      color: colors.white,
       padding: const EdgeInsets.only(
         top: DlSpacingTokens.p_32,
         left: DlSpacingTokens.p_16,
@@ -125,35 +117,42 @@ class DlBottomSheet extends StatelessWidget {
         children: [
           SizedBox(
             key: const Key('dl_bottom_sheet_media'),
-            height: 12,
+            height: 120,
             child: contentMedia ?? Container(color: colors.grey.c100),
           ),
-          Padding(
-            key: const Key('dl_bottom_sheet_text_box'),
-            padding: const EdgeInsets.symmetric(
-              vertical: DlSpacingTokens.p_32,
-              horizontal: DlSpacingTokens.p_16,
+          if (hasTitle || hasDescription)
+            Padding(
+              key: const Key('dl_bottom_sheet_text_box'),
+              padding: const EdgeInsets.symmetric(
+                vertical: DlSpacingTokens.p_32,
+                horizontal: DlSpacingTokens.p_16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (hasTitle)
+                    Text(
+                      contentTitle!,
+                      key: const Key('dl_bottom_sheet_content_title'),
+                      textAlign: TextAlign.center,
+                      style: DlTextStyles.textXl.semiBold.copyWith(
+                        color: colors.black,
+                      ),
+                    ),
+                  if (hasTitle && hasDescription)
+                    const SizedBox(height: DlSpacingTokens.p_8),
+                  if (hasDescription)
+                    Text(
+                      contentDescription!,
+                      key: const Key('dl_bottom_sheet_content_description'),
+                      textAlign: TextAlign.center,
+                      style: DlTextStyles.textBase.regular.copyWith(
+                        color: colors.grey.c500,
+                      ),
+                    ),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  contentTitle,
-                  key: const Key('dl_bottom_sheet_content_title'),
-                  style: DlTextStyles.textXl.semiBold.copyWith(
-                    color: colors.black,
-                  ),
-                ),
-                Text(
-                  contentDescription,
-                  key: const Key('dl_bottom_sheet_content_description'),
-                  style: DlTextStyles.textBase.regular.copyWith(
-                    color: colors.grey.c500,
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -162,7 +161,6 @@ class DlBottomSheet extends StatelessWidget {
   Widget _buildButtonWrapper() {
     return Container(
       key: const Key('dl_bottom_sheet_button_wrapper'),
-      color: Colors.white,
       padding: const EdgeInsets.only(
         left: DlSpacingTokens.p_16,
         right: DlSpacingTokens.p_16,
@@ -172,21 +170,11 @@ class DlBottomSheet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DlButton(
-            key: const Key('dl_bottom_sheet_primary_button'),
-            label: primaryButtonLabel,
-            type: DlButtonType.primary,
-            fullWidth: true,
-            onPressed: onPrimaryPressed,
-          ),
-          const SizedBox(height: DlSpacingTokens.p_16),
-          DlButton(
-            key: const Key('dl_bottom_sheet_secondary_button'),
-            label: secondaryButtonLabel,
-            type: DlButtonType.secondary,
-            fullWidth: true,
-            onPressed: onSecondaryPressed,
-          ),
+          for (var i = 0; i < buttons.length; i++) ...[
+            buttons[i],
+            if (i < buttons.length - 1)
+              const SizedBox(height: DlSpacingTokens.p_16),
+          ],
         ],
       ),
     );
