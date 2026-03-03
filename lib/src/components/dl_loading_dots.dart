@@ -9,9 +9,11 @@ class DlLoadingDots extends StatefulWidget {
   const DlLoadingDots({
     super.key,
     this.stepDuration = const Duration(milliseconds: 300),
+    this.color,
   });
 
   final Duration stepDuration;
+  final Color? color;
 
   @override
   State<DlLoadingDots> createState() => _DlLoadingDotsState();
@@ -49,6 +51,7 @@ class _DlLoadingDotsState extends State<DlLoadingDots> {
   @override
   Widget build(BuildContext context) {
     final colors = context.dlColors;
+    final effectiveColor = widget.color ?? colors.black;
 
     return SizedBox(
       key: const Key('dl_loading_dots'),
@@ -56,12 +59,12 @@ class _DlLoadingDotsState extends State<DlLoadingDots> {
       height: 16,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(3, (index) => _buildDot(colors, index)),
+        children: List.generate(3, (index) => _buildDot(effectiveColor, index)),
       ),
     );
   }
 
-  Widget _buildDot(DlColorPalette colors, int index) {
+  Widget _buildDot(Color color, int index) {
     return SizedBox(
       width: 10,
       height: 16,
@@ -77,7 +80,7 @@ class _DlLoadingDotsState extends State<DlLoadingDots> {
           width: 10,
           height: 10,
           decoration: BoxDecoration(
-            color: colors.black,
+            color: color,
             borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
           ),
         ),

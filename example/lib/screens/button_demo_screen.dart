@@ -387,6 +387,10 @@ class ButtonDemoScreen extends StatelessWidget {
                 onPressed: () {},
               ),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildButtonTimedSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildButtonLoadingSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildButtonIconSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildSeparatorSection(),
@@ -428,6 +432,8 @@ class ButtonDemoScreen extends StatelessWidget {
               _buildTopNavigationMessageSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildMessageDockSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildMessageSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildMessageLoadingSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
@@ -532,6 +538,59 @@ class ButtonDemoScreen extends StatelessWidget {
         Text(label),
         const SizedBox(height: DlSpacingTokens.p_8),
         child,
+      ],
+    );
+  }
+
+  Widget _buildButtonLoadingSection() {
+    return Column(
+      children: [
+        const Text('DlButtonLoading examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlButtonLoading(type: DlButtonType.primary),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlButtonLoading(type: DlButtonType.secondary),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlButtonLoading(type: DlButtonType.tertiary),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlButtonLoading(type: DlButtonType.ghost),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlButtonLoading(
+          type: DlButtonType.primary,
+          size: DlButtonSize.md,
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlButtonLoading(
+          type: DlButtonType.primary,
+          size: DlButtonSize.sm,
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const DlButtonLoading(
+          type: DlButtonType.primary,
+          size: DlButtonSize.xs,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildButtonTimedSection() {
+    return Column(
+      children: const [
+        Text('DlButtonTimed examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlButtonTimed(label: 'Resend code', countdownInSeconds: 10),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlButtonTimed(
+          label: 'Secondary timer',
+          countdownInSeconds: 75,
+          type: DlButtonType.secondary,
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlButtonTimed(
+          label: 'Small timer',
+          countdownInSeconds: 5,
+          size: DlButtonSize.sm,
+        ),
       ],
     );
   }
@@ -1434,6 +1493,64 @@ class ButtonDemoScreen extends StatelessWidget {
         Text('DlMessageLoading examples'),
         SizedBox(height: DlSpacingTokens.p_16),
         Align(alignment: Alignment.centerLeft, child: DlMessageLoading()),
+      ],
+    );
+  }
+
+  Widget _buildMessageSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlMessage examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: DlMessage(
+            type: DlMessageType.message,
+            author: 'Joshua',
+            message: 'Hi there! This is a message bubble.',
+          ),
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: DlMessage(
+            type: DlMessageType.message,
+            message: 'Message without author.',
+          ),
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Align(
+          alignment: Alignment.centerRight,
+          child: DlMessage(
+            type: DlMessageType.ownMessage,
+            message:
+                'This is my own message bubble with dark background and white text.',
+          ),
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: DlMessage(
+            type: DlMessageType.message,
+            state: DlMessageState.response,
+            author: 'Joshua',
+            responseTitle: 'Alice',
+            responseMessage: 'Can you send me the file?',
+            message: 'Sure, sending it now.',
+          ),
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        Align(
+          alignment: Alignment.centerRight,
+          child: DlMessage(
+            type: DlMessageType.ownMessage,
+            state: DlMessageState.response,
+            responseTitle: 'Joshua',
+            responseMessage: 'Looks great!',
+            message: 'Thanks for the feedback.',
+          ),
+        ),
       ],
     );
   }
