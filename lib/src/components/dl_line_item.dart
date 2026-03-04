@@ -1,0 +1,192 @@
+import 'package:flutter/material.dart';
+
+import '../foundations/icons/dl_icons.dart';
+import '../foundations/tokens/dl_spacing_tokens.dart';
+import '../theme/dl_color_palette.dart';
+import '../theme/dl_text_styles.dart';
+import 'dl_button.dart';
+import 'dl_checkbox.dart';
+import 'dl_radio_button.dart';
+import 'dl_separator.dart';
+import 'dl_switch.dart';
+
+enum DlLineItemType { defaultType, switchType, button, checkbox, radioButton, chevron }
+enum DlLineItemState { defaultState, disabled }
+
+class DlLineItem extends StatefulWidget {
+  const DlLineItem({
+    required this.title,
+    super.key,
+    this.description,
+    this.type = DlLineItemType.defaultType,
+    this.state = DlLineItemState.defaultState,
+    this.showSeparator = true,
+    this.buttonLabel = 'Button',
+    this.onButtonPressed,
+    this.onItemTap,
+  });
+
+  final String title;
+  final String? description;
+  final DlLineItemType type;
+  final DlLineItemState state;
+  final bool showSeparator;
+  final String buttonLabel;
+  final VoidCallback? onButtonPressed;
+  final VoidCallback? onItemTap;
+
+  @override
+  State<DlLineItem> createState() => _DlLineItemState();
+}
+
+class _DlLineItemState extends State<DlLineItem> {
+  DlCheckboxState _checkboxState = DlCheckboxState.defaultState;
+  DlRadioButtonState _radioButtonState = DlRadioButtonState.defaultState;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.dlColors;
+    final hasDescription =
+        widget.description != null && widget.description!.isNotEmpty;
+    final isDisabled = widget.state == DlLineItemState.disabled;
+    final titleStyle = isDisabled
+        ? DlTextStyles.textBase.regular.copyWith(color: colors.grey.c500)
+        : DlTextStyles.textBase.semiBold.copyWith(color: colors.black);
+    final descriptionStyle = DlTextStyles.textBase.regular.copyWith(
+      color: isDisabled ? colors.grey.c500 : colors.black,
+    );
+
+    return Column(
+      key: const Key('dl_line_item'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        GestureDetector(
+          key: const Key('dl_line_item_tap_area'),
+          behavior: HitTestBehavior.translucent,
+          onTap: (_isWholeComponentTappable && !isDisabled)
+              ? _handleWholeComponentTap
+              : null,
+          child: Padding(
+            key: const Key('dl_line_item_content_padding'),
+            padding: const EdgeInsets.symmetric(vertical: DlSpacingTokens.p_12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    key: const Key('dl_line_item_text_box'),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        key: const Key('dl_line_item_title'),
+                        style: titleStyle,
+                      ),
+                      if (hasDescription) ...[
+                        const SizedBox(height: DlSpacingTokens.p_8),
+                        Text(
+                          widget.description!,
+                          key: const Key('dl_line_item_description'),
+                          style: descriptionStyle,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                if (_showsTrailingElement) ...[
+                  const SizedBox(width: DlSpacingTokens.p_16),
+                  _buildTrailingElement(colors, isDisabled: isDisabled),
+                ],
+              ],
+            ),
+          ),
+        ),
+        if (widget.showSeparator)
+          const DlSeparator(key: Key('dl_line_item_separator')),
+      ],
+    );
+  }
+
+  bool get _showsTrailingElement => widget.type != DlLineItemType.defaultType;
+  bool get _isWholeComponentTappable =>
+      widget.type == DlLineItemType.checkbox ||
+      widget.type == DlLineItemType.radioButton ||
+      widget.type == DlLineItemType.chevron;
+
+  Widget _buildTrailingElement(
+    DlColorPalette colors, {
+    required bool isDisabled,
+  }) {
+    switch (widget.type) {
+      case DlLineItemType.defaultType:
+        return const SizedBox.shrink();
+      case DlLineItemType.switchType:
+        return IgnorePointer(
+          ignoring: isDisabled,
+          child: const DlSwitch(key: Key('dl_line_item_switch')),
+        );
+      case DlLineItemType.button:
+        return DlButton(
+          key: const Key('dl_line_item_button'),
+          label: widget.buttonLabel,
+          type: DlButtonType.secondary,
+          size: DlButtonSize.xs,
+          state: isDisabled ? DlButtonState.disabled : DlButtonState.defaultState,
+          onPressed: isDisabled ? _noop : (widget.onButtonPressed ?? _noop),
+        );
+      case DlLineItemType.checkbox:
+        return IgnorePointer(
+          child: DlCheckbox(
+            key: const Key('dl_line_item_checkbox'),
+            state: isDisabled ? DlCheckboxState.disabled : _checkboxState,
+          ),
+        );
+      case DlLineItemType.radioButton:
+        return IgnorePointer(
+          child: DlRadioButton(
+            key: const Key('dl_line_item_radio_button'),
+            state: isDisabled ? DlRadioButtonState.disabled : _radioButtonState,
+          ),
+        );
+      case DlLineItemType.chevron:
+        return IconTheme(
+          key: const Key('dl_line_item_chevron_theme'),
+          data: IconThemeData(
+            color: isDisabled ? colors.grey.c400 : colors.black,
+          ),
+          child: const DlPlaceholderIcon(
+            key: Key('dl_line_item_chevron'),
+            size: 24,
+          ),
+        );
+    }
+  }
+
+  void _handleWholeComponentTap() {
+    switch (widget.type) {
+      case DlLineItemType.checkbox:
+        setState(() {
+          _checkboxState = _checkboxState == DlCheckboxState.active
+              ? DlCheckboxState.defaultState
+              : DlCheckboxState.active;
+        });
+        break;
+      case DlLineItemType.radioButton:
+        setState(() {
+          _radioButtonState = _radioButtonState == DlRadioButtonState.active
+              ? DlRadioButtonState.defaultState
+              : DlRadioButtonState.active;
+        });
+        break;
+      case DlLineItemType.chevron:
+        break;
+      case DlLineItemType.defaultType:
+      case DlLineItemType.switchType:
+      case DlLineItemType.button:
+        return;
+    }
+    widget.onItemTap?.call();
+  }
+
+  static void _noop() {}
+}

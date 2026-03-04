@@ -1,6 +1,8 @@
 import 'package:dynamiclayer_flutter/dynamiclayer_flutter.dart';
 import 'package:flutter/material.dart';
 
+import 'filter_template_screen.dart';
+
 class ButtonDemoScreen extends StatelessWidget {
   const ButtonDemoScreen({super.key});
 
@@ -20,6 +22,17 @@ class ButtonDemoScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              DlButton(
+                label: 'Open Filter Template',
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const FilterTemplateScreen(),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: DlSpacingTokens.p_24),
               DlButton(label: 'Primary / Default', onPressed: () {}),
               const SizedBox(height: DlSpacingTokens.p_16),
               DlButton(
@@ -415,6 +428,8 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildChipSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildCoachMarkSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildInputSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildSearchFieldSection(),
@@ -424,6 +439,8 @@ class ButtonDemoScreen extends StatelessWidget {
               _buildOtpInputSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildSwitchSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildLineItemSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildTagSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
@@ -1031,6 +1048,86 @@ class ButtonDemoScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildCoachMarkSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('DlCoachMark examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Direction: bottom'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlCoachMark(
+          steps: const [
+            DlCoachMarkStep(
+              title: 'Try this feature',
+              description:
+                  'Use this coach mark to guide users through actions.',
+            ),
+            DlCoachMarkStep(
+              title: 'Go to next step',
+              description: 'Tap next to continue the coach flow.',
+            ),
+            DlCoachMarkStep(
+              title: 'Done',
+              description: 'You can close onboarding after this step.',
+            ),
+          ],
+          leftButtonLabel: 'Back',
+          rightButtonLabel: 'Next',
+          direction: DlCoachMarkDirection.bottom,
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Direction: top'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlCoachMark(
+          steps: const [
+            DlCoachMarkStep(
+              title: 'Step one',
+              description: 'Coach mark with top arrow direction.',
+            ),
+            DlCoachMarkStep(
+              title: 'Step two',
+              description: 'Back and Next update title and text.',
+            ),
+          ],
+          direction: DlCoachMarkDirection.top,
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Direction: left'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlCoachMark(
+          steps: const [
+            DlCoachMarkStep(
+              title: 'Left arrow',
+              description: 'Coach mark aligned with left direction arrow.',
+            ),
+            DlCoachMarkStep(
+              title: 'Second step',
+              description: 'Pagination and buttons continue to work.',
+            ),
+          ],
+          direction: DlCoachMarkDirection.left,
+        ),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        const Text('Direction: right'),
+        const SizedBox(height: DlSpacingTokens.p_8),
+        DlCoachMark(
+          steps: const [
+            DlCoachMarkStep(
+              title: 'Right arrow',
+              description: 'Coach mark aligned with right direction arrow.',
+            ),
+            DlCoachMarkStep(
+              title: 'Second step',
+              description: 'Use next and back to move through steps.',
+            ),
+          ],
+          direction: DlCoachMarkDirection.right,
+        ),
+      ],
+    );
+  }
+
   Widget _buildCheckboxSection() {
     return Column(
       children: [
@@ -1315,6 +1412,89 @@ class ButtonDemoScreen extends StatelessWidget {
         const Text('DlSwitch examples'),
         const SizedBox(height: DlSpacingTokens.p_16),
         const DlSwitch(),
+      ],
+    );
+  }
+
+  Widget _buildLineItemSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text('DlLineItem examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlLineItem(
+          title: 'Default line item',
+          description: 'Optional supporting description text.',
+        ),
+        DlLineItem(title: 'Default title only', showSeparator: false),
+        DlLineItem(
+          title: 'Switch line item',
+          description: 'Toggle control on the right side.',
+          type: DlLineItemType.switchType,
+        ),
+        DlLineItem(
+          title: 'Switch title only',
+          type: DlLineItemType.switchType,
+          showSeparator: false,
+        ),
+        DlLineItem(
+          title: 'Button line item',
+          description: 'Shows xs secondary button on the right.',
+          type: DlLineItemType.button,
+          buttonLabel: 'Action',
+        ),
+        DlLineItem(
+          title: 'Checkbox line item',
+          description: 'Shows checkbox on the right.',
+          type: DlLineItemType.checkbox,
+        ),
+        DlLineItem(
+          title: 'Radio line item',
+          description: 'Shows radio button on the right.',
+          type: DlLineItemType.radioButton,
+        ),
+        DlLineItem(
+          title: 'Chevron line item',
+          description: 'Shows placeholder chevron icon on the right.',
+          type: DlLineItemType.chevron,
+        ),
+        DlLineItem(
+          title: 'Disabled default line item',
+          description: 'Title and description are grey500.',
+          state: DlLineItemState.disabled,
+        ),
+        DlLineItem(
+          title: 'Disabled switch line item',
+          description: 'Switch is not interactive.',
+          type: DlLineItemType.switchType,
+          state: DlLineItemState.disabled,
+        ),
+        DlLineItem(
+          title: 'Disabled button line item',
+          description: 'Button is disabled.',
+          type: DlLineItemType.button,
+          buttonLabel: 'Action',
+          state: DlLineItemState.disabled,
+        ),
+        DlLineItem(
+          title: 'Disabled checkbox line item',
+          description: 'Checkbox is disabled.',
+          type: DlLineItemType.checkbox,
+          state: DlLineItemState.disabled,
+        ),
+        DlLineItem(
+          title: 'Disabled radio line item',
+          description: 'Radio button is disabled.',
+          type: DlLineItemType.radioButton,
+          state: DlLineItemState.disabled,
+        ),
+        DlLineItem(
+          title: 'Disabled chevron line item',
+          description: 'Chevron icon is grey400.',
+          type: DlLineItemType.chevron,
+          state: DlLineItemState.disabled,
+          showSeparator: false,
+        ),
       ],
     );
   }

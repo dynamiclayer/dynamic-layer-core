@@ -9,6 +9,8 @@ class DlPagination extends StatefulWidget {
     super.key,
     this.initialIndex = 0,
     this.onChanged,
+    this.selectedDotColor,
+    this.unselectedDotColor,
   }) : assert(count > 0, 'count must be greater than 0'),
        assert(initialIndex >= 0, 'initialIndex must be >= 0'),
        assert(initialIndex < count, 'initialIndex must be smaller than count');
@@ -16,6 +18,8 @@ class DlPagination extends StatefulWidget {
   final int count;
   final int initialIndex;
   final ValueChanged<int>? onChanged;
+  final Color? selectedDotColor;
+  final Color? unselectedDotColor;
 
   @override
   State<DlPagination> createState() => _DlPaginationState();
@@ -33,16 +37,19 @@ class _DlPaginationState extends State<DlPagination> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.dlColors;
-
     return Row(
       key: const Key('dl_pagination_row'),
       mainAxisSize: MainAxisSize.min,
-      children: _buildItems(colors),
+      children: _buildItems(context),
     );
   }
 
-  List<Widget> _buildItems(DlColorPalette colors) {
+  List<Widget> _buildItems(BuildContext context) {
+    final colors = context.dlColors;
+    final selectedColor = widget.selectedDotColor ?? colors.black;
+    final unselectedColor =
+        widget.unselectedDotColor ?? colors.black.withAlpha(_unselectedAlpha);
+
     return List.generate(widget.count * 2 - 1, (index) {
       if (index.isOdd) {
         return const SizedBox(width: DlSpacingTokens.p_4);
@@ -50,9 +57,7 @@ class _DlPaginationState extends State<DlPagination> {
 
       final itemIndex = index ~/ 2;
       final isSelected = itemIndex == _selectedIndex;
-      final dotColor = isSelected
-          ? colors.black
-          : colors.black.withAlpha(_unselectedAlpha);
+      final dotColor = isSelected ? selectedColor : unselectedColor;
 
       return GestureDetector(
         key: Key('dl_pagination_item_$itemIndex'),
