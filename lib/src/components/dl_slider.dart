@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_border_width_tokens.dart';
 import '../theme/dl_color_palette.dart';
@@ -22,6 +23,9 @@ class DlSlider extends StatefulWidget {
 
 class _DlSliderState extends State<DlSlider> {
   late double _value;
+  int? _lastHapticStep;
+
+  static const int _hapticSteps = 10;
 
   @override
   void initState() {
@@ -52,7 +56,7 @@ class _DlSliderState extends State<DlSlider> {
           activeTickMarkColor: Colors.transparent,
           inactiveTickMarkColor: Colors.transparent,
           overlayShape: SliderComponentShape.noOverlay,
-          trackShape: const RoundedRectSliderTrackShape(),
+          trackShape: const _DlSliderTrackShape(),
           thumbShape: _DlSliderThumbShape(
             fillColor: colors.white,
             borderColor: colors.grey.c200,
@@ -64,11 +68,53 @@ class _DlSliderState extends State<DlSlider> {
           max: 1,
           value: _value,
           onChanged: (next) {
+            _triggerHapticIfNeeded(next);
             setState(() => _value = next);
             widget.onChanged?.call(next);
           },
         ),
       ),
+    );
+  }
+
+  void _triggerHapticIfNeeded(double value) {
+    final step = (value * _hapticSteps).round();
+    if (_lastHapticStep == step) return;
+    _lastHapticStep = step;
+    HapticFeedback.mediumImpact();
+  }
+}
+
+class _DlSliderTrackShape extends RoundedRectSliderTrackShape {
+  const _DlSliderTrackShape();
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset offset, {
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    Offset? secondaryOffset,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+    required Offset thumbCenter,
+    bool isDiscrete = false,
+    bool isEnabled = false,
+    double additionalActiveTrackHeight = 2,
+  }) {
+    super.paint(
+      context,
+      offset,
+      parentBox: parentBox,
+      sliderTheme: sliderTheme,
+      secondaryOffset: secondaryOffset,
+      enableAnimation: enableAnimation,
+      textDirection: textDirection,
+      thumbCenter: thumbCenter,
+      isDiscrete: isDiscrete,
+      isEnabled: isEnabled,
+      // Keep active/inactive track exactly same height.
+      additionalActiveTrackHeight: 0,
     );
   }
 }

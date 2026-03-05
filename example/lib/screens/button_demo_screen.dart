@@ -404,6 +404,8 @@ class ButtonDemoScreen extends StatelessWidget {
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildButtonLoadingSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
+              _buildCalendarSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
               _buildButtonIconSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildSeparatorSection(),
@@ -441,6 +443,8 @@ class ButtonDemoScreen extends StatelessWidget {
               _buildSwitchSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildLineItemSection(),
+              const SizedBox(height: DlSpacingTokens.p_32),
+              _buildLineItemMessageSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
               _buildTagSection(),
               const SizedBox(height: DlSpacingTokens.p_32),
@@ -607,6 +611,29 @@ class ButtonDemoScreen extends StatelessWidget {
           label: 'Small timer',
           countdownInSeconds: 5,
           size: DlButtonSize.sm,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCalendarSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('DlCalendar examples'),
+        const SizedBox(height: DlSpacingTokens.p_16),
+        DlCalendar.month(
+          year: 2026,
+          month: 2,
+          initialStartDay: 10,
+          initialEndDay: 16,
+          disabledDays: {27, 28},
+          pricesByDay: {
+            1: '\$120',
+            2: '\$110',
+            10: '\$180',
+            16: '\$210',
+          },
         ),
       ],
     );
@@ -1493,6 +1520,50 @@ class ButtonDemoScreen extends StatelessWidget {
           description: 'Chevron icon is grey400.',
           type: DlLineItemType.chevron,
           state: DlLineItemState.disabled,
+          showSeparator: false,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLineItemMessageSection() {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text('DlLineItemMessage examples'),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlLineItemMessage(
+          title: 'Default message item',
+          time: '17:32',
+          message: 'Could you share the final itinerary for tomorrow morning?',
+          state: DlLineItemMessageState.defaultState,
+        ),
+        DlLineItemMessage(
+          title: 'Default with custom avatar',
+          time: '09:15',
+          message: 'This uses initials avatar and no separator.',
+          avatar: DlAvatar(
+            size: DlAvatarSize.lg,
+            type: DlAvatarType.initials,
+            initials: 'DL',
+          ),
+          state: DlLineItemMessageState.defaultState,
+          showSeparator: false,
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlLineItemMessage(
+          title: 'New message item with badge',
+          time: '17:32',
+          message: 'Unread preview is semibold black and shows a badge.',
+          state: DlLineItemMessageState.newState,
+          badge: DlBadge(size: DlBadgeSize.md, value: '3'),
+        ),
+        SizedBox(height: DlSpacingTokens.p_16),
+        DlLineItemMessage(
+          title: 'Disabled message item',
+          time: '17:32',
+          message: 'All texts are base regular grey500.',
+          state: DlLineItemMessageState.disabled,
           showSeparator: false,
         ),
       ],
