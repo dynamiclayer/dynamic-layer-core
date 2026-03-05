@@ -41,14 +41,14 @@ class _DlAlertState extends State<DlAlert> {
         Text(
           widget.title,
           key: const Key('dl_alert_title'),
-          style: DlTextStyles.textBase.semiBold.copyWith(color: colors.black),
+          style: DlTextStyles.textBase.semiBold.copyWith(color: Colors.black),
         ),
         if (widget.description != null && widget.description!.isNotEmpty) ...[
           const SizedBox(height: DlSpacingTokens.p_4),
           Text(
             widget.description!,
             key: const Key('dl_alert_description'),
-            style: DlTextStyles.textBase.regular.copyWith(color: colors.black),
+            style: DlTextStyles.textBase.regular.copyWith(color: Colors.black),
           ),
         ],
       ],
@@ -75,9 +75,8 @@ class _DlAlertState extends State<DlAlert> {
       key: const Key('dl_alert_container'),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: colors.white,
+        color: _backgroundColorForVariant(colors, widget.variant),
         borderRadius: BorderRadius.circular(DlRadiusTokens.roundedLg),
-        border: Border.all(color: colors.grey.c200, width: 1),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +104,7 @@ class _DlAlertState extends State<DlAlert> {
                       child: DlAssetIcon(
                         key: const Key('dl_alert_close_icon'),
                         assetPath: DlIcons.circleXAsset,
-                        color: colors.black,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -141,6 +140,19 @@ class _DlAlertState extends State<DlAlert> {
         return colors.yellow.c500;
       case DlAlertVariant.error:
         return colors.red.c500;
+    }
+  }
+
+  Color _backgroundColorForVariant(DlColorPalette colors, DlAlertVariant variant) {
+    switch (variant) {
+      case DlAlertVariant.info:
+        return colors.violet.c50;
+      case DlAlertVariant.success:
+        return colors.green.c50;
+      case DlAlertVariant.warning:
+        return colors.yellow.c50;
+      case DlAlertVariant.error:
+        return colors.red.c50;
     }
   }
 

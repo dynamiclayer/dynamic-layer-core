@@ -150,4 +150,29 @@ void main() {
     expect(text.style?.fontWeight, DlTextStyles.textXs.regular.fontWeight);
     expect(text.style?.color, DlColorsLight.grey500);
   });
+
+  testWidgets('calls onStateChanged when toggled', (tester) async {
+    DlChipState? latestState;
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: DlTheme.light(),
+        home: Scaffold(
+          body: Center(
+            child: DlChip(
+              label: 'Chip',
+              onStateChanged: (state) => latestState = state,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.byKey(const Key('dl_chip_tap_area')));
+    await tester.pump();
+    expect(latestState, DlChipState.active);
+
+    await tester.tap(find.byKey(const Key('dl_chip_tap_area')));
+    await tester.pump();
+    expect(latestState, DlChipState.defaultState);
+  });
 }

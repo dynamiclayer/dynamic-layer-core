@@ -100,3 +100,11 @@ flutter run
 - Architecture: `docs/ARCHITECTURE.md`
 - Roadmap: `docs/ROADMAP.md`
 - Component docs template: `docs/components/README.md`
+
+## Third-party assets and licenses
+
+This project may include third-party icon assets (for example Lucide).
+Attribution and license details are documented in:
+
+- `THIRD_PARTY_LICENSES.md`
+- `licenses/LUCIDE-ISC.txt`

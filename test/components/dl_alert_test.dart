@@ -36,12 +36,12 @@ void main() {
       find.byKey(const Key('dl_alert_description')),
     );
 
-    expect(decoration.color, DlColorsLight.white);
+    expect(decoration.color, DlColorsLight.violet50);
     expect(
       decoration.borderRadius,
       BorderRadius.circular(DlRadiusTokens.roundedLg),
     );
-    expect((decoration.border as Border).top.color, DlColorsLight.grey200);
+    expect(decoration.border, isNull);
     expect(title.style?.fontWeight, DlTextStyles.textBase.semiBold.fontWeight);
     expect(
       description.style?.fontWeight,
@@ -49,23 +49,29 @@ void main() {
     );
   });
 
-  testWidgets('renders variant-specific leading asset icons', (tester) async {
-    final cases = <DlAlertVariant, ({String iconPath, Color iconColor})>{
+  testWidgets('renders variant-specific leading asset icons and backgrounds', (
+    tester,
+  ) async {
+    final cases = <DlAlertVariant, ({String iconPath, Color iconColor, Color backgroundColor})>{
       DlAlertVariant.info: (
         iconPath: DlIcons.infoAsset,
         iconColor: DlColorsLight.violet500,
+        backgroundColor: DlColorsLight.violet50,
       ),
       DlAlertVariant.success: (
         iconPath: DlIcons.circleCheckAsset,
         iconColor: DlColorsLight.green600,
+        backgroundColor: DlColorsLight.green50,
       ),
       DlAlertVariant.warning: (
         iconPath: DlIcons.alertTriangleFilledAsset,
         iconColor: DlColorsLight.yellow500,
+        backgroundColor: DlColorsLight.yellow50,
       ),
       DlAlertVariant.error: (
         iconPath: DlIcons.circleAlertAsset,
         iconColor: DlColorsLight.red500,
+        backgroundColor: DlColorsLight.red50,
       ),
     };
 
@@ -78,8 +84,14 @@ void main() {
       final leadingIcon = tester.widget<DlAssetIcon>(
         find.byKey(const Key('dl_alert_variant_icon')),
       );
+      final container = tester.widget<Container>(
+        find.byKey(const Key('dl_alert_container')),
+      );
+      final decoration = container.decoration as BoxDecoration;
       expect(leadingIcon.assetPath, entry.value.iconPath);
       expect(leadingIcon.color, entry.value.iconColor);
+      expect(decoration.color, entry.value.backgroundColor);
+      expect(decoration.border, isNull);
     }
   });
 

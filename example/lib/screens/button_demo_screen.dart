@@ -1,6 +1,7 @@
 import 'package:dynamiclayer_flutter/dynamiclayer_flutter.dart';
 import 'package:flutter/material.dart';
 
+import 'account_setup_template_screen.dart';
 import 'filter_template_screen.dart';
 
 class ButtonDemoScreen extends StatelessWidget {
@@ -28,6 +29,17 @@ class ButtonDemoScreen extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => const FilterTemplateScreen(),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: DlSpacingTokens.p_16),
+              DlButton(
+                label: 'Open Account Setup Template',
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const AccountSetupTemplateScreen(),
                     ),
                   );
                 },

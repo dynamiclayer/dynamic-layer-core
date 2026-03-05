@@ -24,6 +24,8 @@ class DlLineItem extends StatefulWidget {
     this.buttonLabel = 'Button',
     this.onButtonPressed,
     this.onItemTap,
+    this.radioSelected,
+    this.onRadioSelectedChanged,
   });
 
   final String title;
@@ -34,6 +36,8 @@ class DlLineItem extends StatefulWidget {
   final String buttonLabel;
   final VoidCallback? onButtonPressed;
   final VoidCallback? onItemTap;
+  final bool? radioSelected;
+  final ValueChanged<bool>? onRadioSelectedChanged;
 
   @override
   State<DlLineItem> createState() => _DlLineItemState();
@@ -42,6 +46,9 @@ class DlLineItem extends StatefulWidget {
 class _DlLineItemState extends State<DlLineItem> {
   DlCheckboxState _checkboxState = DlCheckboxState.defaultState;
   DlRadioButtonState _radioButtonState = DlRadioButtonState.defaultState;
+
+  bool get _effectiveRadioSelected =>
+      widget.radioSelected ?? (_radioButtonState == DlRadioButtonState.active);
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +152,11 @@ class _DlLineItemState extends State<DlLineItem> {
         return IgnorePointer(
           child: DlRadioButton(
             key: const Key('dl_line_item_radio_button'),
-            state: isDisabled ? DlRadioButtonState.disabled : _radioButtonState,
+            state: isDisabled
+                ? DlRadioButtonState.disabled
+                : (_effectiveRadioSelected
+                      ? DlRadioButtonState.active
+                      : DlRadioButtonState.defaultState),
           ),
         );
       case DlLineItemType.chevron:
@@ -172,11 +183,15 @@ class _DlLineItemState extends State<DlLineItem> {
         });
         break;
       case DlLineItemType.radioButton:
-        setState(() {
-          _radioButtonState = _radioButtonState == DlRadioButtonState.active
-              ? DlRadioButtonState.defaultState
-              : DlRadioButtonState.active;
-        });
+        final nextSelected = !_effectiveRadioSelected;
+        if (widget.radioSelected == null) {
+          setState(() {
+            _radioButtonState = nextSelected
+                ? DlRadioButtonState.active
+                : DlRadioButtonState.defaultState;
+          });
+        }
+        widget.onRadioSelectedChanged?.call(nextSelected);
         break;
       case DlLineItemType.chevron:
         break;

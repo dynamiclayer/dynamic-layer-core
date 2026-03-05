@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 import '../foundations/tokens/dl_border_width_tokens.dart';
 import '../theme/dl_color_palette.dart';
@@ -25,7 +26,7 @@ class _DlSliderState extends State<DlSlider> {
   late double _value;
   int? _lastHapticStep;
 
-  static const int _hapticSteps = 10;
+  static const int _hapticSteps = 16;
 
   @override
   void initState() {
@@ -81,7 +82,9 @@ class _DlSliderState extends State<DlSlider> {
     final step = (value * _hapticSteps).round();
     if (_lastHapticStep == step) return;
     _lastHapticStep = step;
-    HapticFeedback.mediumImpact();
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      HapticFeedback.mediumImpact();
+    }
   }
 }
 
@@ -102,20 +105,73 @@ class _DlSliderTrackShape extends RoundedRectSliderTrackShape {
     bool isEnabled = false,
     double additionalActiveTrackHeight = 2,
   }) {
-    super.paint(
-      context,
-      offset,
+    final canvas = context.canvas;
+    final trackRect = getPreferredRect(
       parentBox: parentBox,
+      offset: offset,
       sliderTheme: sliderTheme,
-      secondaryOffset: secondaryOffset,
-      enableAnimation: enableAnimation,
-      textDirection: textDirection,
-      thumbCenter: thumbCenter,
-      isDiscrete: isDiscrete,
       isEnabled: isEnabled,
-      // Keep active/inactive track exactly same height.
-      additionalActiveTrackHeight: 0,
+      isDiscrete: isDiscrete,
     );
+    final trackHeight = sliderTheme.trackHeight ?? 0;
+    final fullTrackRect = Rect.fromLTWH(
+      offset.dx,
+      trackRect.top,
+      parentBox.size.width,
+      trackHeight,
+    );
+
+    final normalizedValue = ((thumbCenter.dx - trackRect.left) / trackRect.width).clamp(
+      0.0,
+      1.0,
+    );
+    final splitX = fullTrackRect.left + (fullTrackRect.width * normalizedValue);
+    final radius = Radius.circular(trackHeight / 2);
+
+    final activeRect = Rect.fromLTRB(
+      fullTrackRect.left,
+      fullTrackRect.top,
+      splitX,
+      fullTrackRect.bottom,
+    );
+    final inactiveRect = Rect.fromLTRB(
+      splitX,
+      fullTrackRect.top,
+      fullTrackRect.right,
+      fullTrackRect.bottom,
+    );
+
+    final activePaint = Paint()
+      ..color = sliderTheme.activeTrackColor ?? Colors.black
+      ..style = PaintingStyle.fill;
+    final inactivePaint = Paint()
+      ..color = sliderTheme.inactiveTrackColor ?? Colors.grey
+      ..style = PaintingStyle.fill;
+
+    if (activeRect.width > 0) {
+      canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          activeRect,
+          topLeft: radius,
+          bottomLeft: radius,
+          topRight: radius,
+          bottomRight: radius,
+        ),
+        activePaint,
+      );
+    }
+    if (inactiveRect.width > 0) {
+      canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          inactiveRect,
+          topLeft: radius,
+          bottomLeft: radius,
+          topRight: radius,
+          bottomRight: radius,
+        ),
+        inactivePaint,
+      );
+    }
   }
 }
 
@@ -148,16 +204,16 @@ class _DlSliderThumbShape extends SliderComponentShape {
   }) {
     final canvas = context.canvas;
     final radius = getPreferredSize(true, false).width / 2;
+    final innerRadius = radius - DlBorderWidthTokens.border2;
 
-    final fillPaint = Paint()
+    final outerPaint = Paint()
+      ..color = borderColor
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(center, radius, outerPaint);
+
+    final innerPaint = Paint()
       ..color = fillColor
       ..style = PaintingStyle.fill;
-    canvas.drawCircle(center, radius, fillPaint);
-
-    final borderPaint = Paint()
-      ..color = borderColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = DlBorderWidthTokens.border2;
-    canvas.drawCircle(center, radius - (DlBorderWidthTokens.border2 / 2), borderPaint);
+    canvas.drawCircle(center, innerRadius, innerPaint);
   }
 }

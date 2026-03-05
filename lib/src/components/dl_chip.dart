@@ -14,11 +14,13 @@ class DlChip extends StatefulWidget {
     super.key,
     this.state = DlChipState.defaultState,
     this.size = DlChipSize.lg,
+    this.onStateChanged,
   });
 
   final String label;
   final DlChipState state;
   final DlChipSize size;
+  final ValueChanged<DlChipState>? onStateChanged;
 
   @override
   State<DlChip> createState() => _DlChipState();
@@ -46,9 +48,12 @@ class _DlChipState extends State<DlChip> {
 
   void _toggleState() {
     if (_isDisabled) return;
+    late DlChipState nextState;
     setState(() {
-      _state = _isActive ? DlChipState.defaultState : DlChipState.active;
+      nextState = _isActive ? DlChipState.defaultState : DlChipState.active;
+      _state = nextState;
     });
+    widget.onStateChanged?.call(nextState);
   }
 
   @override
