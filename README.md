@@ -21,7 +21,7 @@ dependencies:
   dynamiclayer_flutter:
     git:
       url: https://github.com/dynamiclayer/dynamiclayer-free.git
-      ref: main
+      ref: v0.0.2
 ```
 
 Then run:
