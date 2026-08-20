@@ -1,4 +1,15 @@
+/// DlSwitch — Usage rules:
+/// - A toggle switch (50x32px) for on/off settings. Tapping switches between
+///   inactive (grey) and active (black) with a sliding animation.
+/// - Can be used standalone or paired with a label text in a Row. When used
+///   with a label, default text style is DlTextStyles.textBase.regular.
+/// - Use for binary settings (e.g. notifications on/off, dark mode).
+///   For selecting an option from a group, use DlRadioButton or DlCheckbox.
+/// - No size, state, or disabled variants — one consistent appearance.
+/// - Has no callback — manages its own internal state. The parent reads the
+///   state when needed.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';
 import '../theme/dl_color_palette.dart';
@@ -14,13 +25,14 @@ class _DlSwitchState extends State<DlSwitch> {
   bool _isActive = false;
 
   void _toggle() {
+    HapticFeedback.mediumImpact();
     setState(() => _isActive = !_isActive);
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.dlColors;
-    final backgroundColor = _isActive ? colors.black : colors.grey.c200;
+    final backgroundColor = _isActive ? colors.green.c600 : colors.grey.c200;
 
     return GestureDetector(
       key: const Key('dl_switch_tap_area'),
@@ -46,7 +58,7 @@ class _DlSwitchState extends State<DlSwitch> {
             width: 28,
             height: 28,
             decoration: BoxDecoration(
-              color: colors.white,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
             ),
           ),

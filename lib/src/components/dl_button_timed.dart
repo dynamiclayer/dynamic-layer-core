@@ -1,13 +1,24 @@
+/// DlButtonTimed — Usage rules:
+/// - A DlButton with a countdown timer. The button is disabled while the
+///   countdown is running and becomes active when it reaches zero.
+/// - Use for actions that require a waiting period before the user can proceed
+///   (e.g. "Resend code" on an OTP screen, retry actions, cooldown periods).
+/// - countdownInSeconds sets the countdown duration (default: 10 seconds).
+/// - After the countdown completes, pressing the button restarts the countdown.
+/// - onCountdownCompleted fires when the timer reaches zero.
+/// - Shares the same Type, Size, and fullWidth rules as DlButton.
+/// - The label automatically shows the remaining time as suffix (e.g. "Resend (0:30)").
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'dl_button.dart';
 
 class DlButtonTimed extends StatefulWidget {
   const DlButtonTimed({
     required this.label,
-    required this.countdownInSeconds,
+    this.countdownInSeconds = 10,
     super.key,
     this.onPressed,
     this.type = DlButtonType.primary,
@@ -75,7 +86,7 @@ class _DlButtonTimedState extends State<DlButtonTimed> {
       onPressed: isCountingDown ? null : _handlePressed,
       type: widget.type,
       size: widget.size,
-      state: isCountingDown ? DlButtonState.disabled : DlButtonState.defaultState,
+      state: isCountingDown ? DlButtonState.disabled : widget.state,
       iconLeft: widget.iconLeft,
       iconRight: widget.iconRight,
       fullWidth: widget.fullWidth,
@@ -99,6 +110,7 @@ class _DlButtonTimedState extends State<DlButtonTimed> {
   }
 
   void _handlePressed() {
+    HapticFeedback.mediumImpact();
     (widget.onPressed ?? _noop).call();
     if (widget.countdownInSeconds <= 0) return;
     _timer?.cancel();

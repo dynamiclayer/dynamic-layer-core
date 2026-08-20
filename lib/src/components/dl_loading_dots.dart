@@ -1,3 +1,12 @@
+/// DlLoadingDots — Usage rules:
+/// - Three animated bouncing dots (48x16px) indicating a loading/processing
+///   state. The dots cycle through a bounce animation.
+/// - Used internally by DlButtonLoading. Can also be used standalone for
+///   custom loading indicators.
+/// - color is optional — defaults to context.dlColors.black. Override when
+///   placed on a dark background (e.g. white dots on a primary button).
+/// - stepDuration controls the animation speed (default: 300ms per step).
+/// - Fixed size — no size or type variants.
 import 'dart:async';
 
 import 'package:flutter/material.dart';

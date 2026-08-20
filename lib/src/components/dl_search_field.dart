@@ -1,3 +1,13 @@
+/// DlSearchField — Usage rules:
+/// - Always takes the full width of its parent container. Has a pill shape
+///   (roundedFull border radius) to distinguish it from DlInput.
+/// - A search icon is always shown on the left. A clear (X) icon appears
+///   automatically on the right when the field has text.
+/// - Use for filtering or searching lists. Not a replacement for DlInput —
+///   use DlInput for form fields.
+/// - Sizes: lg (default), md, sm.
+/// - Set enabled: false to disable.
+/// - Single-line only — does not support multi-line input.
 import 'package:flutter/material.dart';
 
 import '../foundations/icons/dl_icons.dart';

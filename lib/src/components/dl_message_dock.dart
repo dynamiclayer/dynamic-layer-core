@@ -1,3 +1,17 @@
+/// DlMessageDock — Usage rules:
+/// - A message input bar fixed at the bottom of a chat screen, below the
+///   scrollable message list. Never place inside a ScrollView. Sits directly
+///   inside the Column that is the child of SafeArea, after the Expanded
+///   scroll area.
+/// - Contains a plus icon button on the left, a text input in the center,
+///   and a send button that appears when text is entered.
+/// - Use together with DlTopNavigation (top) and DlMessage (content).
+/// - onSend fires with the message text when the send button is tapped.
+///   clearOnSend: true (default) clears the input after sending.
+/// - showSeparator: true (default) adds a DlSeparator above the dock.
+/// - The text input grows vertically for multi-line messages.
+/// - Set enabled: false to disable input. Set isSending: true to block
+///   sending while a message is being processed.
 import 'package:flutter/material.dart';
 
 import '../foundations/icons/dl_icons.dart';
@@ -110,7 +124,8 @@ class _DlMessageDockState extends State<DlMessageDock> {
           if (widget.showSeparator) const DlSeparator(key: Key('dl_message_dock_separator')),
           Padding(
             padding: const EdgeInsets.all(DlSpacingTokens.p_16),
-            child: Row(
+            child: TextFieldTapRegion(
+              child: Row(
               key: const Key('dl_message_dock_content'),
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -127,7 +142,7 @@ class _DlMessageDockState extends State<DlMessageDock> {
                     key: const Key('dl_message_dock_input_container'),
                     decoration: BoxDecoration(
                       color: colors.grey.c100,
-                      borderRadius: BorderRadius.circular(DlRadiusTokens.roundedMd),
+                      borderRadius: BorderRadius.circular(DlRadiusTokens.rounded3Xl),
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -135,7 +150,7 @@ class _DlMessageDockState extends State<DlMessageDock> {
                         Expanded(
                           child: Padding(
                             key: const Key('dl_message_dock_input_text_box'),
-                            padding: const EdgeInsets.all(DlSpacingTokens.p_12),
+                            padding: const EdgeInsets.fromLTRB(DlSpacingTokens.p_16, DlSpacingTokens.p_12, DlSpacingTokens.p_12, DlSpacingTokens.p_12),
                             child: TextField(
                               key: const Key('dl_message_dock_input'),
                               controller: _controller,
@@ -144,7 +159,7 @@ class _DlMessageDockState extends State<DlMessageDock> {
                               onTapOutside: (_) => FocusScope.of(context).unfocus(),
                               enabled: widget.enabled,
                               minLines: 1,
-                              maxLines: null,
+                              maxLines: 8,
                               keyboardType: TextInputType.multiline,
                               textInputAction: TextInputAction.newline,
                               cursorColor: colors.black,
@@ -198,6 +213,7 @@ class _DlMessageDockState extends State<DlMessageDock> {
                   ),
                 ),
               ],
+            ),
             ),
           ),
         ],

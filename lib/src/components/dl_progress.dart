@@ -1,3 +1,11 @@
+/// DlProgress — Usage rules:
+/// - A horizontal progress bar. Always takes the full width of its parent
+///   container. Height is fixed at 8px with roundedFull shape.
+/// - value is a percentage between 0 and 100. Set to 0 for empty, 100 for full.
+/// - Use to show completion status (e.g. profile setup, file upload, onboarding
+///   steps). Update the value as progress changes.
+/// - Not interactive — purely visual. For user-controlled values, use DlSlider.
+/// - No size, type, or state variants — one consistent appearance.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';

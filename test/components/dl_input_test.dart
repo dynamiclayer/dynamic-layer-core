@@ -1,4 +1,4 @@
-import 'package:dynamiclayer_flutter/dynamiclayer_flutter.dart';
+import 'package:dynamic_layer_core/dynamic_layer_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -32,12 +32,12 @@ void main() {
     expect(container.padding, const EdgeInsets.all(DlSpacingTokens.p_16));
   });
 
-  testWidgets('mg size uses p16 horizontal and p12 vertical in default', (
+  testWidgets('md size uses p16 horizontal and p12 vertical in default', (
     tester,
   ) async {
     await pumpInput(
       tester,
-      input: const DlInput(placeholder: 'Placeholder', size: DlInputSize.mg),
+      input: const DlInput(placeholder: 'Placeholder', size: DlInputSize.md),
     );
 
     final container = tester.widget<Container>(
@@ -184,7 +184,7 @@ void main() {
     },
   );
 
-  testWidgets('mg size uses p4 vertical in active state', (tester) async {
+  testWidgets('md size uses p4 vertical in active state', (tester) async {
     final focusNode = FocusNode();
     addTearDown(focusNode.dispose);
 
@@ -192,7 +192,7 @@ void main() {
       tester,
       input: DlInput(
         placeholder: 'Placeholder',
-        size: DlInputSize.mg,
+        size: DlInputSize.md,
         focusNode: focusNode,
       ),
     );
@@ -483,7 +483,7 @@ void main() {
     expect(textField.decoration?.hintText, 'Your placeholder');
   });
 
-  testWidgets('mg size uses p4 vertical in filled state', (tester) async {
+  testWidgets('md size uses p4 vertical in filled state', (tester) async {
     final focusNode = FocusNode();
     final controller = TextEditingController();
     addTearDown(focusNode.dispose);
@@ -493,7 +493,7 @@ void main() {
       tester,
       input: DlInput(
         placeholder: 'Placeholder',
-        size: DlInputSize.mg,
+        size: DlInputSize.md,
         focusNode: focusNode,
         controller: controller,
       ),

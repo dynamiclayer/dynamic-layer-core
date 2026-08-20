@@ -1,4 +1,18 @@
+/// DlLineItem — Usage rules:
+/// - A full-width list row with a title, optional description on the left,
+///   and an optional trailing element on the right.
+/// - Types control the trailing element: defaultType (no trailing element),
+///   switchType (DlSwitch), button (DlButton xs), checkbox (DlCheckbox),
+///   radioButton (DlRadioButton), chevron (arrow icon for navigation).
+/// - For checkbox, radioButton, and chevron types, the entire row is tappable.
+///   For switchType and button, only the trailing element is interactive.
+/// - Use multiple line items stacked vertically for settings pages, option
+///   lists, or selection screens.
+/// - showSeparator: true (default) adds a DlSeparator below the row. Set to
+///   false for the last item in a group.
+/// - States: defaultState, disabled.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/icons/dl_icons.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
@@ -11,7 +25,7 @@ import 'dl_separator.dart';
 import 'dl_switch.dart';
 
 enum DlLineItemType { defaultType, switchType, button, checkbox, radioButton, chevron }
-enum DlLineItemState { defaultState, disabled }
+enum DlLineItemState { defaultState, disabled, danger, success }
 
 class DlLineItem extends StatefulWidget {
   const DlLineItem({
@@ -26,6 +40,8 @@ class DlLineItem extends StatefulWidget {
     this.onItemTap,
     this.radioSelected,
     this.onRadioSelectedChanged,
+    this.iconLeft = false,
+    this.iconLeftWidget,
   });
 
   final String title;
@@ -38,6 +54,8 @@ class DlLineItem extends StatefulWidget {
   final VoidCallback? onItemTap;
   final bool? radioSelected;
   final ValueChanged<bool>? onRadioSelectedChanged;
+  final bool iconLeft;
+  final Widget? iconLeftWidget;
 
   @override
   State<DlLineItem> createState() => _DlLineItemState();
@@ -56,11 +74,18 @@ class _DlLineItemState extends State<DlLineItem> {
     final hasDescription =
         widget.description != null && widget.description!.isNotEmpty;
     final isDisabled = widget.state == DlLineItemState.disabled;
+    final isDanger = widget.state == DlLineItemState.danger;
+    final isSuccess = widget.state == DlLineItemState.success;
+    final titleColor = isDisabled
+        ? colors.grey.c500
+        : isDanger
+            ? colors.red.c500
+            : colors.black;
     final titleStyle = isDisabled
-        ? DlTextStyles.textBase.regular.copyWith(color: colors.grey.c500)
-        : DlTextStyles.textBase.semiBold.copyWith(color: colors.black);
+        ? DlTextStyles.textBase.regular.copyWith(color: titleColor)
+        : DlTextStyles.textBase.semiBold.copyWith(color: titleColor);
     final descriptionStyle = DlTextStyles.textBase.regular.copyWith(
-      color: isDisabled ? colors.grey.c500 : colors.black,
+      color: colors.grey.c500,
     );
 
     return Column(
@@ -80,23 +105,46 @@ class _DlLineItemState extends State<DlLineItem> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Column(
-                    key: const Key('dl_line_item_text_box'),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.title,
-                        key: const Key('dl_line_item_title'),
-                        style: titleStyle,
-                      ),
-                      if (hasDescription) ...[
-                        const SizedBox(height: DlSpacingTokens.p_8),
-                        Text(
-                          widget.description!,
-                          key: const Key('dl_line_item_description'),
-                          style: descriptionStyle,
+                      if (widget.iconLeft) ...[
+                        IconTheme(
+                          key: const Key('dl_line_item_icon_left_theme'),
+                          data: IconThemeData(
+                            color: isDanger
+                                ? colors.red.c500
+                                : isSuccess
+                                    ? colors.green.c600
+                                    : colors.grey.c400,
+                          ),
+                          child: widget.iconLeftWidget ?? const DlPlaceholderIcon(
+                            key: Key('dl_line_item_icon_left'),
+                          ),
                         ),
+                        const SizedBox(width: DlSpacingTokens.p_16),
                       ],
+                      Expanded(
+                        child: Column(
+                          key: const Key('dl_line_item_text_box'),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.title,
+                              key: const Key('dl_line_item_title'),
+                              style: titleStyle,
+                            ),
+                            if (hasDescription) ...[
+                              const SizedBox(height: DlSpacingTokens.p_8),
+                              Text(
+                                widget.description!,
+                                key: const Key('dl_line_item_description'),
+                                style: descriptionStyle,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -165,9 +213,9 @@ class _DlLineItemState extends State<DlLineItem> {
           data: IconThemeData(
             color: isDisabled ? colors.grey.c400 : colors.black,
           ),
-          child: const DlPlaceholderIcon(
+          child: const DlAssetIcon(
             key: Key('dl_line_item_chevron'),
-            size: 24,
+            assetPath: DlIcons.chevronRightAsset,
           ),
         );
     }
@@ -176,6 +224,7 @@ class _DlLineItemState extends State<DlLineItem> {
   void _handleWholeComponentTap() {
     switch (widget.type) {
       case DlLineItemType.checkbox:
+        HapticFeedback.mediumImpact();
         setState(() {
           _checkboxState = _checkboxState == DlCheckboxState.active
               ? DlCheckboxState.defaultState
@@ -183,6 +232,7 @@ class _DlLineItemState extends State<DlLineItem> {
         });
         break;
       case DlLineItemType.radioButton:
+        HapticFeedback.mediumImpact();
         final nextSelected = !_effectiveRadioSelected;
         if (widget.radioSelected == null) {
           setState(() {
@@ -194,6 +244,7 @@ class _DlLineItemState extends State<DlLineItem> {
         widget.onRadioSelectedChanged?.call(nextSelected);
         break;
       case DlLineItemType.chevron:
+        HapticFeedback.mediumImpact();
         break;
       case DlLineItemType.defaultType:
       case DlLineItemType.switchType:

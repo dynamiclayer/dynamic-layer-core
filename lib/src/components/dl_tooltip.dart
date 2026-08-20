@@ -1,7 +1,23 @@
+/// DlTooltip — Usage rules:
+/// - A dark overlay label with an arrow pointing to the related element.
+///   Content-hugging — width fits the label.
+/// - Use for brief contextual hints or explanations next to UI elements.
+/// - Direction controls where the arrow points: bottom (default), top, left,
+///   right. Choose the direction so the arrow points toward the element it
+///   describes.
+/// - Always keep the tooltip fully within the visible screen area. Choose the
+///   direction based on the target element's position — e.g. if the element is
+///   near the right edge, use direction left so the tooltip does not overflow.
+/// - Position the tooltip relative to its target using a Stack with Positioned,
+///   or place it inline adjacent to the target element.
+/// - Not interactive — purely informational. For interactive guidance, use
+///   DlCoachMark instead.
+/// - No size or type variants — one consistent dark appearance.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
+import '../theme/dl_color_palette.dart';
 import '../theme/dl_text_styles.dart';
 
 enum DlTooltipDirection { bottom, top, left, right }
@@ -18,6 +34,10 @@ class DlTooltip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.dlColors;
+    final bgColor = colors.black;
+    final textColor = colors.white;
+
     final tooltipBox = Container(
       key: const Key('dl_tooltip_box'),
       padding: const EdgeInsets.symmetric(
@@ -25,20 +45,20 @@ class DlTooltip extends StatelessWidget {
         vertical: DlSpacingTokens.p_8,
       ),
       decoration: BoxDecoration(
-        color: _tooltipBackground,
-        borderRadius: BorderRadius.circular(DlRadiusTokens.roundedMd),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
       ),
       child: Text(
         label,
         key: const Key('dl_tooltip_label'),
-        style: DlTextStyles.textBase.regular.copyWith(color: _tooltipText),
+        style: DlTextStyles.textBase.bold.copyWith(color: textColor),
       ),
     );
 
     final arrow = CustomPaint(
       key: const Key('dl_tooltip_arrow'),
       size: _arrowSizeForDirection(direction),
-      painter: _DlTooltipArrowPainter(direction: direction),
+      painter: _DlTooltipArrowPainter(direction: direction, color: bgColor),
     );
 
     switch (direction) {
@@ -81,13 +101,11 @@ class DlTooltip extends StatelessWidget {
   }
 }
 
-const Color _tooltipBackground = Color(0xFF1F1F1F);
-const Color _tooltipText = Color(0xFFFFFFFF);
-
 class _DlTooltipArrowPainter extends CustomPainter {
-  const _DlTooltipArrowPainter({required this.direction});
+  const _DlTooltipArrowPainter({required this.direction, required this.color});
 
   final DlTooltipDirection direction;
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -139,13 +157,13 @@ class _DlTooltipArrowPainter extends CustomPainter {
 
     final paint = Paint()
       ..style = PaintingStyle.fill
-      ..color = _tooltipBackground;
+      ..color = color;
 
     canvas.drawPath(path, paint);
   }
 
   @override
   bool shouldRepaint(covariant _DlTooltipArrowPainter oldDelegate) {
-    return oldDelegate.direction != direction;
+    return oldDelegate.direction != direction || oldDelegate.color != color;
   }
 }

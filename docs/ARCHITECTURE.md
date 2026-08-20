@@ -13,7 +13,7 @@ No feature screens or product flows belong in the package itself.
 
 ## API rules
 
-1. Public API is exported only via `lib/dynamiclayer_flutter.dart`.
+1. Public API is exported only via `lib/dynamic_layer_core.dart`.
 2. Everything under `lib/src/**` is internal and can evolve without direct consumer guarantees.
 3. Component naming follows the `Dl` prefix convention:
    - `DlButton`
@@ -24,7 +24,7 @@ No feature screens or product flows belong in the package itself.
 
 ## Package layout
 
-- `lib/dynamiclayer_flutter.dart`: public exports only.
+- `lib/dynamic_layer_core.dart`: public exports only.
 - `lib/src/components/`: reusable UI widgets.
 - `lib/src/theme/`: shared theme primitives (colors, typography, spacing, ThemeData adapters).
 - `lib/src/foundations/`: design tokens and constants.

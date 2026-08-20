@@ -1,3 +1,15 @@
+/// DlTag — Usage rules:
+/// - A small label for categorization or status display. Content-hugging —
+///   width fits the label text.
+/// - Not interactive — purely visual. Do not use as a button or chip.
+/// - Use to highlight or label elements (e.g. a "New" tag next to a new item
+///   on a screen, or a status like "Pending", "Completed").
+/// - Types: defaultType (neutral/grey), warning (yellow), error (red),
+///   success (green).
+/// - Modes: light (default, subtle background) or dark (stronger background,
+///   white text).
+/// - Sizes: lg (default), md, sm.
+/// - iconLeft / iconRight are optional. Keep icons small to match the tag size.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';
@@ -38,7 +50,7 @@ class DlTag extends StatelessWidget {
       padding: _paddingForSize(),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(DlRadiusTokens.rounded),
+        borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
       ),
       child: Row(
         key: const Key('dl_tag_row'),

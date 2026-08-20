@@ -1,6 +1,18 @@
+/// DlBottomNavigation — Usage rules:
+/// - Fixed at the bottom of the screen, below the scrollable content area.
+///   Never place inside a ScrollView. Sits directly inside the Column that is
+///   the child of SafeArea, after the Expanded scroll area.
+/// - Use for top-level app navigation between main sections (e.g. Home,
+///   Search, Profile). Not for in-page content switching — use DlTabControl
+///   or DlSegmentedControl for that.
+/// - Each tab requires an icon. Text label and badge (e.g. DlBadge) are optional.
+/// - showSeparator: true (default) adds a DlSeparator line above the navigation.
+/// - Can be controlled (via selectedIndex) or uncontrolled (manages its own state).
+/// - onTabChanged fires with the selected tab index when the user switches tabs.
+/// - No size variants — one consistent appearance (64px height).
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import '../foundations/icons/dl_icons.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
 import '../theme/dl_color_palette.dart';
 import '../theme/dl_text_styles.dart';
@@ -8,10 +20,10 @@ import 'dl_badge.dart';
 import 'dl_separator.dart';
 
 class DlBottomNavigationTab {
-  const DlBottomNavigationTab({this.text, this.icon, this.badge});
+  const DlBottomNavigationTab({required this.icon, this.text, this.badge});
 
   final String? text;
-  final Widget? icon;
+  final Widget icon;
   final Widget? badge;
 }
 
@@ -128,7 +140,7 @@ class _DlBottomNavigationState extends State<DlBottomNavigation> {
           Center(
             child: IconTheme(
               data: IconThemeData(color: color),
-              child: tab.icon ?? const DlPlaceholderIcon(size: 24),
+              child: tab.icon,
             ),
           ),
           if (tab.badge != null)
@@ -155,6 +167,7 @@ class _DlBottomNavigationState extends State<DlBottomNavigation> {
 
   void _setActiveIndex(int index) {
     if (index == _effectiveActiveIndex) return;
+    HapticFeedback.mediumImpact();
     if (!_isControlled) {
       setState(() => _internalActiveIndex = index);
     }

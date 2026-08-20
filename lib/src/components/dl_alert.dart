@@ -1,4 +1,19 @@
+/// DlAlert — Usage rules:
+/// - An inline alert banner with icon, title, and optional description. Always
+///   takes the full width of its parent container.
+/// - Use for persistent, contextual messages within the page content (e.g.
+///   form validation summary, important notices). Place inside the scrollable
+///   content area.
+/// - Unlike DlSnackbar (temporary overlay), DlAlert is part of the page layout.
+/// - Variants: defaultVariant (grey, customizable icon via iconLeft),
+///   info (violet), success (green), warning (yellow), error (red).
+///   The icon and background color are set automatically by variant.
+/// - description is optional — use for additional detail below the title.
+/// - The entire alert is tappable. onTap is optional.
+/// - A chevron-right icon on the right indicates the alert is actionable.
+/// - No size variants — one consistent appearance.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
@@ -6,132 +21,131 @@ import '../foundations/icons/dl_icons.dart';
 import '../theme/dl_color_palette.dart';
 import '../theme/dl_text_styles.dart';
 
-enum DlAlertVariant { info, success, warning, error }
+enum DlAlertVariant { defaultVariant, info, success, warning, error }
 
-class DlAlert extends StatefulWidget {
+class DlAlert extends StatelessWidget {
   const DlAlert({
     required this.title,
     this.description,
     super.key,
     this.variant = DlAlertVariant.info,
-    this.onClose,
+    this.onTap,
+    this.iconLeft,
   });
 
   final String title;
   final String? description;
   final DlAlertVariant variant;
-  final VoidCallback? onClose;
-
-  @override
-  State<DlAlert> createState() => _DlAlertState();
-}
-
-class _DlAlertState extends State<DlAlert> {
-  bool _isVisible = true;
+  final VoidCallback? onTap;
+  final Widget? iconLeft;
 
   @override
   Widget build(BuildContext context) {
-    if (!_isVisible) return const SizedBox.shrink();
-
     final colors = context.dlColors;
-    final textContentWrapper = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          widget.title,
-          key: const Key('dl_alert_title'),
-          style: DlTextStyles.textBase.semiBold.copyWith(color: Colors.black),
+
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.mediumImpact();
+        onTap?.call();
+      },
+      child: Container(
+        key: const Key('dl_alert_container'),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: _backgroundColorForVariant(
+              colors, variant, Theme.of(context).brightness),
+          borderRadius: BorderRadius.circular(DlRadiusTokens.roundedLg),
         ),
-        if (widget.description != null && widget.description!.isNotEmpty) ...[
-          const SizedBox(height: DlSpacingTokens.p_4),
-          Text(
-            widget.description!,
-            key: const Key('dl_alert_description'),
-            style: DlTextStyles.textBase.regular.copyWith(color: Colors.black),
-          ),
-        ],
-      ],
-    );
-
-    final leadingSectionWrapper = Padding(
-      key: const Key('dl_alert_left_block'),
-      padding: const EdgeInsets.all(DlSpacingTokens.p_16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          DlAssetIcon(
-            key: const Key('dl_alert_variant_icon'),
-            assetPath: _assetForVariant(widget.variant),
-            color: _iconColorForVariant(colors, widget.variant),
-          ),
-          const SizedBox(width: DlSpacingTokens.p_16),
-          Expanded(child: textContentWrapper),
-        ],
-      ),
-    );
-
-    return Container(
-      key: const Key('dl_alert_container'),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: _backgroundColorForVariant(colors, widget.variant),
-        borderRadius: BorderRadius.circular(DlRadiusTokens.roundedLg),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(child: leadingSectionWrapper),
-          if (widget.onClose != null) ...[
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                key: const Key('dl_alert_close_button'),
-                onTap: _handleCloseTap,
-                borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
-                splashFactory: NoSplash.splashFactory,
-                overlayColor: WidgetStateProperty.all(Colors.transparent),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                child: Padding(
-                  key: const Key('dl_alert_close_block'),
-                  padding: const EdgeInsets.all(DlSpacingTokens.p_16),
-                  child: SizedBox.square(
-                    dimension: 24,
-                    child: Center(
-                      child: DlAssetIcon(
-                        key: const Key('dl_alert_close_icon'),
-                        assetPath: DlIcons.circleXAsset,
-                        color: Colors.black,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Padding(
+                key: const Key('dl_alert_left_block'),
+                padding: const EdgeInsets.all(DlSpacingTokens.p_16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (variant == DlAlertVariant.defaultVariant)
+                      iconLeft ??
+                          DlPlaceholderIcon(
+                            key: const Key('dl_alert_variant_icon'),
+                            color: colors.black,
+                          )
+                    else
+                      DlAssetIcon(
+                        key: const Key('dl_alert_variant_icon'),
+                        assetPath: _assetForVariant(variant),
+                        color: _iconColorForVariant(colors, variant),
+                      ),
+                    const SizedBox(width: DlSpacingTokens.p_16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            title,
+                            key: const Key('dl_alert_title'),
+                            style: DlTextStyles.textBase.semiBold
+                                .copyWith(color: colors.black),
+                          ),
+                          if (description != null &&
+                              description!.isNotEmpty) ...[
+                            const SizedBox(height: DlSpacingTokens.p_4),
+                            Text(
+                              description!,
+                              key: const Key('dl_alert_description'),
+                              style: DlTextStyles.textBase.regular
+                                  .copyWith(color: colors.black),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              key: const Key('dl_alert_chevron_block'),
+              padding: const EdgeInsets.all(DlSpacingTokens.p_16),
+              child: SizedBox.square(
+                dimension: 24,
+                child: Center(
+                  child: DlAssetIcon(
+                    key: const Key('dl_alert_chevron_icon'),
+                    assetPath: DlIcons.chevronRightAsset,
+                    color: colors.black,
                   ),
                 ),
               ),
             ),
           ],
-        ],
+        ),
       ),
     );
   }
 
   String _assetForVariant(DlAlertVariant variant) {
     switch (variant) {
+      case DlAlertVariant.defaultVariant:
+        return DlIcons.placeholderAsset;
       case DlAlertVariant.info:
-        return DlIcons.infoAsset;
+        return DlIcons.placeholderAsset;
       case DlAlertVariant.success:
-        return DlIcons.circleCheckAsset;
+        return DlIcons.placeholderAsset;
       case DlAlertVariant.warning:
-        return DlIcons.alertTriangleFilledAsset;
+        return DlIcons.placeholderAsset;
       case DlAlertVariant.error:
-        return DlIcons.circleAlertAsset;
+        return DlIcons.placeholderAsset;
     }
   }
 
   Color _iconColorForVariant(DlColorPalette colors, DlAlertVariant variant) {
     switch (variant) {
+      case DlAlertVariant.defaultVariant:
+        return colors.black;
       case DlAlertVariant.info:
         return colors.violet.c500;
       case DlAlertVariant.success:
@@ -143,22 +157,20 @@ class _DlAlertState extends State<DlAlert> {
     }
   }
 
-  Color _backgroundColorForVariant(DlColorPalette colors, DlAlertVariant variant) {
+  Color _backgroundColorForVariant(
+      DlColorPalette colors, DlAlertVariant variant, Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
     switch (variant) {
+      case DlAlertVariant.defaultVariant:
+        return colors.grey.c100;
       case DlAlertVariant.info:
-        return colors.violet.c50;
+        return isDark ? colors.violet.c950 : colors.violet.c50;
       case DlAlertVariant.success:
-        return colors.green.c50;
+        return isDark ? colors.green.c950 : colors.green.c50;
       case DlAlertVariant.warning:
-        return colors.yellow.c50;
+        return isDark ? colors.yellow.c950 : colors.yellow.c50;
       case DlAlertVariant.error:
-        return colors.red.c50;
+        return isDark ? colors.red.c950 : colors.red.c50;
     }
-  }
-
-  void _handleCloseTap() {
-    if (!_isVisible) return;
-    setState(() => _isVisible = false);
-    widget.onClose?.call();
   }
 }

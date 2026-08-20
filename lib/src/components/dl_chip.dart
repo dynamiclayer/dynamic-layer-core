@@ -1,4 +1,16 @@
+/// DlChip — Usage rules:
+/// - An interactive, toggleable pill. Tapping switches between default (grey)
+///   and active (black) state. Use for filter options or selectable categories.
+/// - Content-hugging — width fits the label. Has a pill shape (roundedFull).
+/// - Unlike DlTag, the chip is interactive. Unlike DlButton, it toggles state
+///   rather than triggering an action.
+/// - Use multiple chips in a horizontal Wrap to let the user select one or more
+///   options.
+/// - States: defaultState (unselected), active (selected), disabled.
+/// - Sizes: lg (default), md, sm.
+/// - onStateChanged fires when the user toggles the chip and returns the new state.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
@@ -48,6 +60,7 @@ class _DlChipState extends State<DlChip> {
 
   void _toggleState() {
     if (_isDisabled) return;
+    HapticFeedback.mediumImpact();
     late DlChipState nextState;
     setState(() {
       nextState = _isActive ? DlChipState.defaultState : DlChipState.active;

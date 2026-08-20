@@ -1,3 +1,17 @@
+/// DlInput — Usage rules:
+/// - Always takes the full width of its parent container.
+/// - Use type: DlInputType.error with errorHelperText to show validation errors.
+///   The error icon and helper text appear automatically.
+/// - Use type: DlInputType.success for validated fields. The success icon appears
+///   automatically.
+/// - When type is error or success, the right icon is overridden by the type icon.
+///   A custom iconRight is only visible in defaultType.
+/// - Sizes: lg (default), md, sm. When used alongside a DlButton in the same
+///   container, prefer matching sizes.
+/// - Set enabled: false to disable the input. Do not use for read-only display —
+///   disabled means the user cannot interact with it.
+/// - Use obscureText: true for password fields.
+/// - The placeholder text moves above the input value when focused or filled.
 import 'package:flutter/material.dart';
 
 import '../foundations/icons/dl_icons.dart';
@@ -8,7 +22,7 @@ import '../theme/dl_text_styles.dart';
 
 enum DlInputType { defaultType, error, success }
 
-enum DlInputSize { lg, mg, sm }
+enum DlInputSize { lg, md, sm }
 
 class DlInput extends StatefulWidget {
   const DlInput({
@@ -193,7 +207,7 @@ class _DlInputState extends State<DlInput> {
   double _horizontalPadding() {
     switch (widget.size) {
       case DlInputSize.lg:
-      case DlInputSize.mg:
+      case DlInputSize.md:
         return DlSpacingTokens.p_16;
       case DlInputSize.sm:
         return DlSpacingTokens.p_12;
@@ -205,7 +219,7 @@ class _DlInputState extends State<DlInput> {
       switch (widget.size) {
         case DlInputSize.lg:
           return DlSpacingTokens.p_8;
-        case DlInputSize.mg:
+        case DlInputSize.md:
           return DlSpacingTokens.p_4;
         case DlInputSize.sm:
           return DlSpacingTokens.p_0;
@@ -215,7 +229,7 @@ class _DlInputState extends State<DlInput> {
     switch (widget.size) {
       case DlInputSize.lg:
         return DlSpacingTokens.p_16;
-      case DlInputSize.mg:
+      case DlInputSize.md:
         return DlSpacingTokens.p_12;
       case DlInputSize.sm:
         return DlSpacingTokens.p_8;
@@ -228,14 +242,14 @@ class _DlInputState extends State<DlInput> {
     if (_isErrorType) {
       return DlAssetIcon(
         key: const Key('dl_input_type_icon_error'),
-        assetPath: DlIcons.circleAlertAsset,
+        assetPath: DlIcons.circleAlertFilledAsset,
         color: colors.red.c500,
       );
     }
     if (_isSuccessType) {
       return DlAssetIcon(
         key: const Key('dl_input_type_icon_success'),
-        assetPath: DlIcons.circleCheckAsset,
+        assetPath: DlIcons.circleCheckFilledAsset,
         color: colors.green.c600,
       );
     }

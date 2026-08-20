@@ -1,3 +1,14 @@
+/// DlSnackbar — Usage rules:
+/// - A brief feedback message with an icon and label. Content-hugging — width
+///   fits the label, horizontally centered on the screen.
+/// - Use for temporary notifications after user actions (e.g. "Saved
+///   successfully", "Error occurred"). Show via an overlay or animation,
+///   then dismiss after a short duration.
+/// - Types: success (green check), error (red alert), warning (yellow triangle),
+///   information (violet info icon). The icon is set automatically by type.
+/// - Not interactive — purely visual feedback. No buttons or dismiss action.
+/// - No size variants — one consistent appearance.
+/// - Keep the label short — single line, truncates on overflow.
 import 'package:flutter/material.dart';
 
 import '../foundations/icons/dl_icons.dart';
@@ -24,7 +35,7 @@ class DlSnackbar extends StatelessWidget {
     final colors = context.dlColors;
 
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: IntrinsicWidth(
         child: Container(
           key: const Key('dl_snackbar'),
@@ -36,7 +47,7 @@ class DlSnackbar extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: colors.white,
-            borderRadius: BorderRadius.circular(DlRadiusTokens.roundedMd),
+            borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
             border: Border.all(
               color: colors.grey.c200,
               width: DlBorderWidthTokens.border1,
@@ -72,13 +83,13 @@ class DlSnackbar extends StatelessWidget {
   String _iconPathForType() {
     switch (type) {
       case DlSnackbarType.success:
-        return DlIcons.circleCheckAsset;
+        return DlIcons.circleCheckFilledAsset;
       case DlSnackbarType.error:
-        return DlIcons.circleAlertAsset;
+        return DlIcons.circleAlertFilledAsset;
       case DlSnackbarType.warning:
-        return DlIcons.alertTriangleFilledAsset;
+        return DlIcons.triangleAlertFilledAsset;
       case DlSnackbarType.information:
-        return DlIcons.infoAsset;
+        return DlIcons.circleAlertFilledAsset;
     }
   }
 

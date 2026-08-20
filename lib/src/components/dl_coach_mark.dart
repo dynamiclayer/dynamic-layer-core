@@ -1,3 +1,18 @@
+/// DlCoachMark — Usage rules:
+/// - A multi-step onboarding guide with title, description, pagination dots,
+///   and Back/Next buttons. Always takes the full width of its parent container.
+/// - Use to walk the user through features or UI elements step by step
+///   (e.g. first-time user onboarding, feature tours).
+/// - Always attach to a specific target element (e.g. a button, input, or icon).
+///   Position relative to the target using a Stack with Positioned.
+/// - steps is required — each step has a title and description.
+/// - Direction controls where the arrow points: bottom (default), top, left,
+///   right. Always keep the coach mark fully within the visible screen area —
+///   choose direction based on the target element's position.
+/// - Back/Next button labels are customizable via leftButtonLabel and
+///   rightButtonLabel. Buttons disable automatically at first/last step.
+/// - Unlike DlTooltip (static, single label), DlCoachMark is interactive
+///   and supports multiple steps with navigation.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';

@@ -1,3 +1,18 @@
+/// DlCalendar — Usage rules:
+/// - A calendar grid (7 columns for weekdays) for date selection. Always takes
+///   the full width of its parent container.
+/// - Supports single date selection (one active day) and date range selection
+///   (two active days with filled days between them).
+/// - Two constructors: DlCalendar(items:) for full manual control, or
+///   DlCalendar.month(year:, month:) for automatic month generation with
+///   optional initialStartDay, initialEndDay, disabledDays, and pricesByDay.
+/// - Each day can show an optional price below the day number (e.g. for
+///   travel/booking apps).
+/// - Item states: defaultState (selectable), select (in range between two
+///   active dates), active (selected endpoint), unselect (days outside current
+///   month, greyed out), disabled (not selectable).
+/// - Place inside the scrollable content area. Combine with DlTopNavigation
+///   for month/year navigation above.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';

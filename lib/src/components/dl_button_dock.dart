@@ -1,3 +1,13 @@
+/// DlButtonDock — Usage rules:
+/// - Fixed at the bottom of the screen, below the scrollable content area.
+///   Never place inside a ScrollView. Sits directly inside the Column that is
+///   the child of SafeArea, after the Expanded scroll area.
+/// - Contains one or more DlButton instances. Buttons are automatically set
+///   to fullWidth inside the dock.
+/// - direction: vertical (default) stacks buttons on top of each other,
+///   horizontal places them side by side.
+/// - showSeparator: true (default) adds a DlSeparator line above the dock.
+/// - Do not place other components inside the dock — it only accepts DlButton.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_spacing_tokens.dart';
@@ -9,7 +19,7 @@ class DlButtonDock extends StatelessWidget {
   DlButtonDock({
     required this.buttons,
     super.key,
-    this.direction = Axis.horizontal,
+    this.direction = Axis.vertical,
     this.showSeparator = true,
   }) : assert(buttons.length > 0, 'buttons must not be empty');
 

@@ -1,7 +1,13 @@
+/// DlSlider — Usage rules:
+/// - A horizontal slider for selecting a value between 0 and 1. Always takes
+///   the full width of its parent container.
+/// - initialValue sets the starting position (default: 0). Must be between
+///   0 and 1.
+/// - onChanged fires on every drag update with the current value (0–1).
+/// - No size, type, or state variants — one consistent appearance.
+/// - Use for continuous value selection (e.g. volume, brightness, price range).
+///   For discrete option selection, use DlChip or DlRadioButton instead.
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
-
 import '../foundations/tokens/dl_border_width_tokens.dart';
 import '../theme/dl_color_palette.dart';
 
@@ -24,9 +30,6 @@ class DlSlider extends StatefulWidget {
 
 class _DlSliderState extends State<DlSlider> {
   late double _value;
-  int? _lastHapticStep;
-
-  static const int _hapticSteps = 16;
 
   @override
   void initState() {
@@ -69,7 +72,6 @@ class _DlSliderState extends State<DlSlider> {
           max: 1,
           value: _value,
           onChanged: (next) {
-            _triggerHapticIfNeeded(next);
             setState(() => _value = next);
             widget.onChanged?.call(next);
           },
@@ -78,14 +80,6 @@ class _DlSliderState extends State<DlSlider> {
     );
   }
 
-  void _triggerHapticIfNeeded(double value) {
-    final step = (value * _hapticSteps).round();
-    if (_lastHapticStep == step) return;
-    _lastHapticStep = step;
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      HapticFeedback.mediumImpact();
-    }
-  }
 }
 
 class _DlSliderTrackShape extends RoundedRectSliderTrackShape {

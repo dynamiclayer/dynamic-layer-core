@@ -1,3 +1,12 @@
+/// DlTextarea — Usage rules:
+/// - Multi-line text input with a fixed height of 132px. Content scrolls
+///   vertically when it exceeds the visible area.
+/// - Always takes the full width of its parent container.
+/// - Use for longer text input (e.g. comments, descriptions, messages).
+///   For single-line input, use DlInput instead.
+/// - Has no type or size variants — one consistent appearance.
+/// - Set enabled: false to disable. The placeholder color changes to indicate
+///   the disabled state.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';

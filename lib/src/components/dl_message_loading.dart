@@ -1,3 +1,13 @@
+/// DlMessageLoading — Usage rules:
+/// - A typing indicator bubble with three animated dots, styled like a received
+///   message (grey background, left-aligned).
+/// - Show while the other party is typing or the system is processing a
+///   response. Remove and replace with the actual DlMessage when it arrives.
+/// - Always left-align using Align(alignment: Alignment.centerLeft), same as
+///   a received DlMessage.
+/// - Use together with DlMessage, DlTopNavigation, and DlMessageDock
+///   on chat screens.
+/// - No size, type, or state variants — one consistent appearance.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -26,7 +36,7 @@ class DlMessageLoading extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: colors.grey.c100,
-        borderRadius: BorderRadius.circular(DlRadiusTokens.roundedMd),
+        borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
       ),
       child: DlMessageLoadingDots(stepDuration: stepDuration),
     );

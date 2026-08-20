@@ -1,4 +1,4 @@
-name: dynamiclayer_flutter
+name: dynamic_layer_core
 description: "A new Flutter package project."
 version: 0.0.1
 homepage:
@@ -23,18 +23,17 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/icons/alert-triangle-filled.svg
-    - assets/icons/circle-alert.svg
-    - assets/icons/circle-check.svg
-    - assets/icons/circle-x.svg
-    - assets/icons/info.svg
-    - assets/icons/arrow-up.svg
-    - assets/icons/plus.svg
-    - assets/icons/user.svg
-    - assets/icons/avatar-image.png
-    - assets/icons/placeholder.svg
-    - assets/icons/search.svg
-    - assets/icons/x.svg
+    - assets/icons/
+    - assets/illustrations/dynamiclayer.svg
+    - assets/illustrations/notification.svg
+    - assets/illustrations/qr-code.svg
+    - assets/illustrations/coupon.svg
+    - assets/illustrations/badge-disabled.svg
+    - assets/illustrations/bronze-badge.svg
+    - assets/illustrations/silver-badge.svg
+    - assets/illustrations/gold-badge.svg
+    - assets/illustrations/platin-badge.svg
+    - assets/illustrations/platin-badge-disabled.svg
 
   # To add assets to your package, add an assets section, like this:
   # assets:

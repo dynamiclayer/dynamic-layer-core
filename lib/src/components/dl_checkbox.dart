@@ -1,4 +1,16 @@
+/// DlCheckbox — Usage rules:
+/// - A toggleable checkbox (24x24px). Tapping switches between unchecked
+///   (default) and checked (active) state.
+/// - Always pair with a label text in a Row. The checkbox alone has no label —
+///   place a Text widget next to it. Default text style for the label is
+///   DlTextStyles.textBase.regular.
+/// - Use for multi-select scenarios where the user can pick multiple options
+///   (e.g. terms acceptance, filter selections). For single-select, use
+///   DlRadioButton instead.
+/// - States: defaultState (unchecked), active (checked), disabled.
+/// - No size variants — one consistent size (24x24px).
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_border_width_tokens.dart';
 import '../foundations/tokens/dl_radius_tokens.dart';
@@ -40,6 +52,7 @@ class _DlCheckboxState extends State<DlCheckbox> {
 
   void _toggleState() {
     if (_isDisabled) return;
+    HapticFeedback.mediumImpact();
     setState(() {
       _state = _isActive ? DlCheckboxState.defaultState : DlCheckboxState.active;
     });

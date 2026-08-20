@@ -1,3 +1,14 @@
+/// DlAvatar — Usage rules:
+/// - A circular avatar displaying a user icon, initials, or image.
+/// - Types: icon (default, generic user icon), initials (two-letter text),
+///   image (profile photo).
+/// - When using type initials, always use the first letter of the first name
+///   and the first letter of the last name (e.g. "Andrew Doe" → "AD").
+/// - Sizes: lg (default, 56px), md (48px), sm (40px), xs (32px).
+/// - States: defaultState (no indicator), online (green dot), offline (grey dot).
+///   The status dot appears at the bottom-right corner.
+/// - Use in user-related contexts: profile headers, message lists, contact
+///   cards, DlTopNavigation.
 import 'package:flutter/material.dart';
 
 import '../foundations/icons/dl_icons.dart';
@@ -43,9 +54,9 @@ class DlAvatar extends StatelessWidget {
         child: switch (type) {
           DlAvatarType.icon => DlAssetIcon(
             key: Key('dl_avatar_icon'),
-            assetPath: DlIcons.userAsset,
+            assetPath: DlIcons.userFilledAsset,
             size: _iconDimensionForSize(),
-            color: colors.grey.c500,
+            color: colors.grey.c400,
           ),
           DlAvatarType.initials => Text(
             initials,
@@ -54,15 +65,11 @@ class DlAvatar extends StatelessWidget {
             maxLines: 1,
             softWrap: false,
           ),
-          DlAvatarType.image => ClipRRect(
-            borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
-            child: Image.asset(
-              DlIcons.avatarImageAsset,
-              key: const Key('dl_avatar_image'),
-              width: _dimensionForSize(),
-              height: _dimensionForSize(),
-              fit: BoxFit.cover,
-            ),
+          DlAvatarType.image => DlAssetIcon(
+            key: const Key('dl_avatar_image'),
+            assetPath: DlIcons.placeholderAsset,
+            size: _iconDimensionForSize(),
+            color: colors.grey.c500,
           ),
         },
       ),
@@ -149,13 +156,13 @@ class DlAvatar extends StatelessWidget {
   TextStyle _initialsStyle() {
     switch (size) {
       case DlAvatarSize.lg:
-        return DlTextStyles.textXl.semiBold;
+        return DlTextStyles.textXl.bold;
       case DlAvatarSize.md:
-        return DlTextStyles.textLg.semiBold;
+        return DlTextStyles.textLg.bold;
       case DlAvatarSize.sm:
-        return DlTextStyles.textSm.semiBold;
+        return DlTextStyles.textSm.bold;
       case DlAvatarSize.xs:
-        return DlTextStyles.textXs.semiBold;
+        return DlTextStyles.textXs.bold;
     }
   }
 

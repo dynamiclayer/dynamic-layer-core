@@ -1,3 +1,17 @@
+/// DlLineItemMessage — Usage rules:
+/// - A full-width list row for message/chat overviews. Shows an avatar on the
+///   left, title and time on the top right, and a message preview below.
+/// - Use for message inbox or conversation list screens. Each row represents
+///   one conversation. Tap the row to open the chat (handle via parent).
+/// - title (contact name), time, and message (preview text) are required.
+/// - avatar is optional — falls back to a default DlAvatar.
+/// - States: defaultState (read message), newState (unread — bold message text,
+///   badge shown), disabled (greyed out).
+/// - In newState, a badge (e.g. DlBadge) appears next to the message preview
+///   to indicate unread messages.
+/// - showSeparator: true (default) adds a DlSeparator below the row. Set to
+///   false for the last item in the list.
+/// - Message preview is limited to 2 lines with ellipsis overflow.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_spacing_tokens.dart';

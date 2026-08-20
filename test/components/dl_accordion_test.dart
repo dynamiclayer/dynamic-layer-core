@@ -1,4 +1,4 @@
-import 'package:dynamiclayer_flutter/dynamiclayer_flutter.dart';
+import 'package:dynamic_layer_core/dynamic_layer_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

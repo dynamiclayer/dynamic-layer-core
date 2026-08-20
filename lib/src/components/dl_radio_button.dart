@@ -1,4 +1,17 @@
+/// DlRadioButton — Usage rules:
+/// - A toggleable radio button (24x24px). Tapping switches between unselected
+///   (default) and selected (active) state.
+/// - Always pair with a label text in a Row. The radio button alone has no
+///   label — place a Text widget next to it. Default text style for the label
+///   is DlTextStyles.textBase.regular.
+/// - Use for single-select scenarios where only one option can be chosen from
+///   a group. For multi-select, use DlCheckbox instead.
+/// - The parent widget is responsible for ensuring only one radio button in a
+///   group is active at a time.
+/// - States: defaultState (unselected), active (selected), disabled.
+/// - No size variants — one consistent size (24x24px).
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_border_width_tokens.dart';
 import '../foundations/tokens/dl_radius_tokens.dart';
@@ -40,6 +53,7 @@ class _DlRadioButtonState extends State<DlRadioButton> {
 
   void _toggleState() {
     if (_isDisabled) return;
+    HapticFeedback.mediumImpact();
     setState(() {
       _state = _isActive ? DlRadioButtonState.defaultState : DlRadioButtonState.active;
     });

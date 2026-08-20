@@ -1,3 +1,15 @@
+/// DlBottomSheet — Usage rules:
+/// - A modal overlay that slides up from the bottom. Has rounded top corners.
+///   Show using showModalBottomSheet with isScrollControlled: true.
+/// - headerTitle is required and shown centered at the top with a close (X)
+///   button on the right that pops the sheet.
+/// - contentMedia is an optional widget area (120px height) for any content —
+///   images, illustrations, or components like DlLineItem.
+/// - contentTitle and contentDescription are optional centered text below the
+///   media area.
+/// - buttons is an optional list of DlButton instances stacked vertically at
+///   the bottom. Buttons inside the sheet should use fullWidth: true.
+/// - Do not use for inline content — the bottom sheet is always a modal overlay.
 import 'package:flutter/material.dart';
 
 import '../foundations/icons/dl_icons.dart';
@@ -66,7 +78,7 @@ class DlBottomSheet extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: DlTextStyles.textBase.semiBold.copyWith(
+              style: DlTextStyles.textBase.bold.copyWith(
                 color: colors.black,
               ),
             ),
@@ -135,7 +147,7 @@ class DlBottomSheet extends StatelessWidget {
                       contentTitle!,
                       key: const Key('dl_bottom_sheet_content_title'),
                       textAlign: TextAlign.center,
-                      style: DlTextStyles.textXl.semiBold.copyWith(
+                      style: DlTextStyles.textXl.bold.copyWith(
                         color: colors.black,
                       ),
                     ),

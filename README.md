@@ -1,10 +1,10 @@
-# dynamiclayer_flutter
+# dynamic_layer_core
 
-`dynamiclayer_flutter` is a reusable Flutter UI components package.
+`dynamic_layer_core` is a reusable Flutter UI components package.
 
 **Mission:** "Dieses Repo ist eine Flutter UI-Komponentenbibliothek, keine Produkt-App."
 
-The GitHub repository is `dynamiclayer-flutter`, while the Dart/Flutter package name stays `dynamiclayer_flutter`.
+The GitHub repository is `dynamiclayer-flutter`, while the Dart/Flutter package name stays `dynamic_layer_core`.
 
 ## What Dynamic Layer is
 
@@ -15,7 +15,7 @@ Dynamic Layer starts as a Figma template system:
 - Teams adapt that copy per client project (for example border radius, colors, fonts, component shape).
 - The goal is to avoid rebuilding the same base components from scratch on every new project.
 
-`dynamiclayer_flutter` is the matching Flutter code template for the same idea.
+`dynamic_layer_core` is the matching Flutter code template for the same idea.
 It provides reusable UI components as a starting point, and each project can adjust those components to match its adapted Figma system.
 
 ## Intended workflow (Design to Code)
@@ -24,7 +24,7 @@ It provides reusable UI components as a starting point, and each project can adj
 2. The designer uses the Dynamic Layer Figma template as the foundation.
 3. The designer adapts components to the client's visual system (for example rounded buttons and custom typography).
 4. The designer builds screens in Figma using those adapted components.
-5. The developer starts from `dynamiclayer_flutter` as the Flutter base.
+5. The developer starts from `dynamic_layer_core` as the Flutter base.
 6. The developer adapts the library's components to match the final Figma decisions.
 7. The developer builds product screens using the adjusted components.
 
@@ -42,7 +42,7 @@ This means the library is intentionally a project-ready starter layer, not a loc
 Only import from:
 
 ```dart
-import 'package:dynamiclayer_flutter/dynamiclayer_flutter.dart';
+import 'package:dynamic_layer_core/dynamic_layer_core.dart';
 ```
 
 Package internals under `lib/src/**` are not part of the public API and may change.
@@ -53,15 +53,15 @@ Package internals under `lib/src/**` are not part of the public API and may chan
 
 ```yaml
 dependencies:
-  dynamiclayer_flutter:
-    path: ../dynamiclayer_flutter
+  dynamic_layer_core:
+    path: ../dynamic_layer_core
 ```
 
 ### Git dependency
 
 ```yaml
 dependencies:
-  dynamiclayer_flutter:
+  dynamic_layer_core:
     git:
       url: https://github.com/<your-org>/dynamiclayer-flutter.git
       ref: main

@@ -1,4 +1,18 @@
+/// DlPinKeyboard — Usage rules:
+/// - A single circular key (80x80px) for PIN/passcode entry screens. Use
+///   multiple instances arranged in a grid (3 columns) to build a full keypad.
+/// - Use for security-critical flows that require PIN entry (e.g. banking app
+///   login, transaction confirmation, app lock screen).
+/// - Type text: Shows a number (required) and optional alphabet letters below.
+///   Use for digit keys (e.g. number: "1", alphabet: "ABC").
+/// - Type icon: Shows an icon instead of text. Use for special keys like
+///   backspace or biometric authentication.
+/// - Always pair with input fields above the keypad to show the entered
+///   PIN digits.
+/// - onPressed fires when the key is tapped. The parent manages the input logic.
+/// - No size variants — one consistent size (80x80px).
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/icons/dl_icons.dart';
 import '../foundations/tokens/dl_radius_tokens.dart';
@@ -49,7 +63,12 @@ class _DlPinKeyboardState extends State<DlPinKeyboard> {
     return GestureDetector(
       key: const Key('dl_pin_keyboard_tap_area'),
       behavior: HitTestBehavior.translucent,
-      onTap: widget.onPressed,
+      onTap: widget.onPressed == null
+          ? null
+          : () {
+              HapticFeedback.mediumImpact();
+              widget.onPressed!.call();
+            },
       onTapDown: (_) => _setPressed(true),
       onTapUp: (_) => _setPressed(false),
       onTapCancel: () => _setPressed(false),

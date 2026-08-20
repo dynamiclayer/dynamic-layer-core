@@ -1,4 +1,4 @@
-import 'package:dynamiclayer_flutter/dynamiclayer_flutter.dart';
+import 'package:dynamic_layer_core/dynamic_layer_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -125,7 +125,7 @@ void main() {
     expect(rightBoxX, leftBoxX + leftBoxWidth);
   });
 
-  testWidgets('supports optional replaceable icons and clickable icon boxes', (
+  testWidgets('supports optional DlButtonIcon icons with onPressed', (
     tester,
   ) async {
     var leftTapped = false;
@@ -135,19 +135,26 @@ void main() {
       tester,
       child: DlTopNavigation(
         title: 'Title',
-        iconLeft: const DlPlaceholderIcon(),
-        iconRight: const DlPlaceholderIcon(),
-        onIconLeftTap: () => leftTapped = true,
-        onIconRightTap: () => rightTapped = true,
+        iconLeft: DlButtonIcon(
+          icon: const DlPlaceholderIcon(),
+          type: DlButtonType.ghost,
+          size: DlButtonSize.sm,
+          onPressed: () => leftTapped = true,
+        ),
+        iconRight: DlButtonIcon(
+          icon: const DlPlaceholderIcon(),
+          type: DlButtonType.ghost,
+          size: DlButtonSize.sm,
+          onPressed: () => rightTapped = true,
+        ),
       ),
     );
 
-    expect(find.byKey(const Key('dl_top_navigation_left_icon')), findsOneWidget);
-    expect(find.byKey(const Key('dl_top_navigation_right_icon')), findsOneWidget);
+    expect(find.byType(DlButtonIcon), findsNWidgets(2));
 
-    await tester.tap(find.byKey(const Key('dl_top_navigation_left_icon_tap')));
+    await tester.tap(find.byType(DlButtonIcon).first);
     await tester.pump();
-    await tester.tap(find.byKey(const Key('dl_top_navigation_right_icon_tap')));
+    await tester.tap(find.byType(DlButtonIcon).last);
     await tester.pump();
 
     expect(leftTapped, isTrue);

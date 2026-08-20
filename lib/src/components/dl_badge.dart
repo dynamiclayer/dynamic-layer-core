@@ -1,3 +1,13 @@
+/// DlBadge — Usage rules:
+/// - Small notification indicator. Use to show unread counts or draw attention
+///   to an element (e.g. on icons, navigation items, avatars).
+/// - Size sm: A red dot (8px) with no text — use to indicate "something new"
+///   without a count.
+/// - Size md (default): A red pill with a text value — use to show a count
+///   (e.g. "3", "99+"). Keep the value short.
+/// - Always position the badge relative to its parent using a Stack with
+///   Positioned (e.g. top-right corner of an icon or avatar).
+/// - Do not use as a standalone element — it always belongs to another component.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';

@@ -1,4 +1,17 @@
+/// DlSegmentedControl — Usage rules:
+/// - A pill-shaped tab bar with a grey background. The active tab is highlighted
+///   with a white pill. Always takes the full width of its parent container.
+/// - Use for 3 or fewer options only. For more than 3 options, use
+///   DlTabControl instead.
+/// - Use to switch between different content sections or views on the same screen.
+///   Pair with an IndexedStack or conditional content below the control.
+/// - Each tab can have an optional badge (e.g. DlBadge) shown next to the label.
+/// - The first enabled tab is automatically selected on initialization.
+/// - Individual tabs can be disabled via DlSegmentedControlTabState.disabled.
+/// - onTabChanged fires with the selected tab index when the user switches tabs.
+/// - No size variants — one consistent appearance.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_spacing_tokens.dart';
 import '../theme/dl_color_palette.dart';
@@ -85,7 +98,7 @@ class _DlSegmentedControlState extends State<DlSegmentedControl> {
           key: Key('dl_segmented_control_tab_$index'),
           padding: const EdgeInsets.symmetric(
             horizontal: DlSpacingTokens.p_16,
-            vertical: DlSpacingTokens.p_2,
+            vertical: DlSpacingTokens.p_4,
           ),
           decoration: BoxDecoration(
             color: isActive ? colors.white : Colors.transparent,
@@ -125,6 +138,7 @@ class _DlSegmentedControlState extends State<DlSegmentedControl> {
 
   void _setActiveIndex(int index) {
     if (_activeIndex == index) return;
+    HapticFeedback.mediumImpact();
     setState(() => _activeIndex = index);
     widget.onTabChanged?.call(index);
   }
@@ -148,7 +162,7 @@ class _DlSegmentedControlState extends State<DlSegmentedControl> {
     if (isDisabled) {
       return DlTextStyles.textBase.regular.copyWith(color: colors.grey.c300);
     }
-    return DlTextStyles.textBase.medium.copyWith(
+    return DlTextStyles.textBase.semiBold.copyWith(
       color: isActive ? colors.black : colors.grey.c500,
     );
   }

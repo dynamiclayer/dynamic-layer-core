@@ -1,4 +1,17 @@
+/// DlTabControl — Usage rules:
+/// - A horizontal tab bar. Tabs share the available width equally (each tab
+///   is Expanded). Always takes the full width of its parent container.
+/// - Use to switch between different content sections on the same screen.
+///   Pair with an IndexedStack or conditional content below the tab control.
+/// - Each tab can have an optional badge (e.g. DlBadge) shown next to the label.
+/// - The first enabled tab is automatically selected on initialization.
+/// - Individual tabs can be disabled via DlTabControlTabState.disabled.
+/// - onTabChanged fires with the selected tab index when the user switches tabs.
+/// - No size variants — one consistent appearance.
+/// - Use DlTabControl when there are more than 3 options. For 3 or fewer
+///   options, use DlSegmentedControl instead.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_border_width_tokens.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
@@ -113,6 +126,7 @@ class _DlTabControlState extends State<DlTabControl> {
 
   void _setActiveIndex(int index) {
     if (index == _activeIndex) return;
+    HapticFeedback.mediumImpact();
     setState(() => _activeIndex = index);
     widget.onTabChanged?.call(index);
   }
@@ -136,7 +150,7 @@ class _DlTabControlState extends State<DlTabControl> {
     if (isDisabled) {
       return DlTextStyles.textBase.regular.copyWith(color: colors.grey.c300);
     }
-    return DlTextStyles.textBase.medium.copyWith(
+    return DlTextStyles.textBase.semiBold.copyWith(
       color: isActive ? colors.black : colors.grey.c500,
     );
   }

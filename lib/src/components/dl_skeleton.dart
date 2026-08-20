@@ -1,3 +1,16 @@
+/// DlSkeleton — Usage rules:
+/// - A placeholder shape with a pulsing animation, used while content is
+///   loading. Replaces the actual content element with a matching shape.
+/// - Customize width, height, and rounded to match the element it replaces
+///   (e.g. a text line: full width, 16px height; an avatar: 56px square).
+/// - Default: full width, 16px height, roundedFull.
+/// - Use one skeleton per content element it replaces. For multi-line text,
+///   use one skeleton per line stacked vertically — never a single tall
+///   skeleton for multiple lines.
+/// - Combine multiple skeletons to mimic a full content layout during loading
+///   (e.g. stacked lines for a text block, circle + lines for a profile card).
+/// - Replace with actual content once data is loaded. Do not mix skeleton
+///   placeholders with real content in the same element.
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';
@@ -8,7 +21,7 @@ class DlSkeleton extends StatefulWidget {
     super.key,
     this.width = double.infinity,
     this.height = 16,
-    this.rounded = DlRadiusTokens.roundedMd,
+    this.rounded = DlRadiusTokens.roundedFull,
   });
 
   final double width;

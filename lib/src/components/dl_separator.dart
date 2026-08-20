@@ -1,3 +1,13 @@
+/// DlSeparator — Usage rules:
+/// - A 1px line to visually divide content sections. Always use to separate
+///   thematic categories or content groups from each other.
+/// - Orientation horizontal (default): Full-width line. Use between list items,
+///   sections, or above/below fixed components like DlButtonDock.
+/// - Orientation vertical: Full-height line. Use between side-by-side elements
+///   (e.g. inside a Row).
+/// - No size, state, or color variants — one consistent appearance (grey.c200).
+/// - Do not add extra spacing around it — the separator provides only the line.
+///   Use SizedBox or padding on surrounding elements for spacing.
 import 'package:flutter/material.dart';
 
 import '../theme/dl_color_palette.dart';

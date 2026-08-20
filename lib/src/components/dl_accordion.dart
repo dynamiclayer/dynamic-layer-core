@@ -1,4 +1,15 @@
+/// DlAccordion — Usage rules:
+/// - An expandable/collapsible section with a title and text content.
+///   Tapping the title row toggles the content visibility.
+/// - Always takes the full width of its parent container.
+/// - Use multiple accordions stacked vertically for FAQ sections or grouped
+///   information (e.g. settings, help pages).
+/// - showSeparator: true (default) adds a DlSeparator at the bottom. Set to
+///   false for the last item in a group to avoid a trailing line.
+/// - States: defaultState, disabled (title gets strikethrough style).
+/// - No size variants — one consistent appearance.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
@@ -38,7 +49,7 @@ class _DlAccordionState extends State<DlAccordion> {
     final iconColor = _isDisabled ? colors.grey.c500 : colors.black;
     final titleStyle = _isDisabled
         ? DlTextStyles.textBase.strike
-        : DlTextStyles.textBase.medium;
+        : DlTextStyles.textBase.semiBold;
 
     return Container(
       key: const Key('dl_accordion_container'),
@@ -109,6 +120,7 @@ class _DlAccordionState extends State<DlAccordion> {
   }
 
   void _toggle() {
+    HapticFeedback.mediumImpact();
     final next = !_isExpanded;
     setState(() => _isExpanded = next);
   }

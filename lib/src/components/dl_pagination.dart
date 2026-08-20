@@ -1,3 +1,15 @@
+/// DlPagination — Usage rules:
+/// - A row of small dots indicating the current position within a series of
+///   pages or steps. The active dot is fully opaque, others are 40% opacity.
+/// - Interactive — tapping a dot selects it and fires onChanged with the index.
+/// - count is required — the total number of dots/pages. Must be at least 2,
+///   because a single page needs no pagination.
+/// - Used internally by DlCoachMark. Can also be used standalone for
+///   onboarding flows, image carousels, or page indicators.
+/// - selectedDotColor and unselectedDotColor are optional — default to
+///   context.dlColors.black. Override for dark backgrounds (e.g. white dots
+///   inside DlCoachMark).
+/// - No size variants — one consistent appearance (8px dots).
 import 'package:flutter/material.dart';
 
 import '../foundations/tokens/dl_spacing_tokens.dart';
@@ -11,7 +23,7 @@ class DlPagination extends StatefulWidget {
     this.onChanged,
     this.selectedDotColor,
     this.unselectedDotColor,
-  }) : assert(count > 0, 'count must be greater than 0'),
+  }) : assert(count >= 2, 'count must be at least 2'),
        assert(initialIndex >= 0, 'initialIndex must be >= 0'),
        assert(initialIndex < count, 'initialIndex must be smaller than count');
 
