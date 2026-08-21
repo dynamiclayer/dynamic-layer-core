@@ -34,6 +34,7 @@ flutter:
     - assets/illustrations/gold-badge.svg
     - assets/illustrations/platin-badge.svg
     - assets/illustrations/platin-badge-disabled.svg
+    - assets/illustrations/image.svg
 
   # To add assets to your package, add an assets section, like this:
   # assets:

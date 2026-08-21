@@ -33,6 +33,9 @@ abstract final class DlIllustrations {
 
   static const String platinBadgeDisabledAsset =
       'packages/dynamic_layer_core/assets/illustrations/platin-badge-disabled.svg';
+
+  static const String imageAsset =
+      'packages/dynamic_layer_core/assets/illustrations/image.svg';
 }
 
 class DlIllustration extends StatelessWidget {

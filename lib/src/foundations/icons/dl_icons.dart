@@ -188,6 +188,8 @@ abstract final class DlIcons {
       'packages/dynamic_layer_core/assets/icons/apple-outline.svg';
   static const String appleAsset =
       'packages/dynamic_layer_core/assets/icons/apple.svg';
+  static const String apple2Asset =
+      'packages/dynamic_layer_core/assets/icons/apple-2.svg';
   static const String archiveFilledAsset =
       'packages/dynamic_layer_core/assets/icons/archive-filled.svg';
   static const String archiveOutlineAsset =
@@ -2546,6 +2548,8 @@ abstract final class DlIcons {
       'packages/dynamic_layer_core/assets/icons/globe-lock-outline.svg';
   static const String globeOutlineAsset =
       'packages/dynamic_layer_core/assets/icons/globe-outline.svg';
+  static const String googleAsset =
+      'packages/dynamic_layer_core/assets/icons/google.svg';
   static const String goalFilledAsset =
       'packages/dynamic_layer_core/assets/icons/goal-filled.svg';
   static const String goalOutlineAsset =

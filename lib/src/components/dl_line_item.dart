@@ -42,6 +42,8 @@ class DlLineItem extends StatefulWidget {
     this.onRadioSelectedChanged,
     this.iconLeft = false,
     this.iconLeftWidget,
+    this.buttonType = DlButtonType.secondary,
+    this.buttonState = DlButtonState.defaultState,
   });
 
   final String title;
@@ -56,6 +58,8 @@ class DlLineItem extends StatefulWidget {
   final ValueChanged<bool>? onRadioSelectedChanged;
   final bool iconLeft;
   final Widget? iconLeftWidget;
+  final DlButtonType buttonType;
+  final DlButtonState buttonState;
 
   @override
   State<DlLineItem> createState() => _DlLineItemState();
@@ -184,9 +188,9 @@ class _DlLineItemState extends State<DlLineItem> {
         return DlButton(
           key: const Key('dl_line_item_button'),
           label: widget.buttonLabel,
-          type: DlButtonType.secondary,
+          type: widget.buttonType,
           size: DlButtonSize.xs,
-          state: isDisabled ? DlButtonState.disabled : DlButtonState.defaultState,
+          state: isDisabled ? DlButtonState.disabled : widget.buttonState,
           onPressed: isDisabled ? _noop : (widget.onButtonPressed ?? _noop),
         );
       case DlLineItemType.checkbox:
