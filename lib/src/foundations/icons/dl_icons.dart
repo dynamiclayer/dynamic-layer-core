@@ -10,10 +10,18 @@ abstract final class DlIcons {
       'packages/dynamic_layer_core/assets/icons/a-arrow-up.svg';
   static const String aLargeSmallAsset =
       'packages/dynamic_layer_core/assets/icons/a-large-small.svg';
+  static const String aLargeSquareFilledAsset =
+      'packages/dynamic_layer_core/assets/icons/a-large-square-filled.svg';
+  static const String aLargeSquareOutlineAsset =
+      'packages/dynamic_layer_core/assets/icons/a-large-square-outline.svg';
   static const String accessibilityFilledAsset =
       'packages/dynamic_layer_core/assets/icons/accessibility-filled.svg';
   static const String accessibilityOutlineAsset =
       'packages/dynamic_layer_core/assets/icons/accessibility-outline.svg';
+  static const String accessibility2FilledAsset =
+      'packages/dynamic_layer_core/assets/icons/accessibility-2-filled.svg';
+  static const String accessibility2OutlineAsset =
+      'packages/dynamic_layer_core/assets/icons/accessibility-2-outline.svg';
   static const String activityAsset =
       'packages/dynamic_layer_core/assets/icons/activity.svg';
   static const String airVentFilledAsset =
