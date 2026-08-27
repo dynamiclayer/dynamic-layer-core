@@ -7,7 +7,10 @@
 /// - Has no type or size variants — one consistent appearance.
 /// - Set enabled: false to disable. The placeholder color changes to indicate
 ///   the disabled state.
+/// - maxLength: optional character limit. When set, input is enforced to that
+///   maximum number of characters. No visible counter is shown.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/tokens/dl_radius_tokens.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
@@ -22,6 +25,7 @@ class DlTextarea extends StatefulWidget {
     this.focusNode,
     this.onChanged,
     this.enabled = true,
+    this.maxLength,
   });
 
   final String placeholder;
@@ -29,6 +33,7 @@ class DlTextarea extends StatefulWidget {
   final FocusNode? focusNode;
   final ValueChanged<String>? onChanged;
   final bool enabled;
+  final int? maxLength;
 
   @override
   State<DlTextarea> createState() => _DlTextareaState();
@@ -127,6 +132,10 @@ class _DlTextareaState extends State<DlTextarea> {
           focusNode: _focusNode,
           scrollController: _scrollController,
           onChanged: widget.onChanged,
+          maxLength: widget.maxLength,
+          maxLengthEnforcement: widget.maxLength != null
+              ? MaxLengthEnforcement.enforced
+              : MaxLengthEnforcement.none,
           onSubmitted: (_) => FocusScope.of(context).unfocus(),
           textInputAction: TextInputAction.done,
           enabled: widget.enabled,
@@ -136,6 +145,7 @@ class _DlTextareaState extends State<DlTextarea> {
           textAlignVertical: TextAlignVertical.top,
           onTapOutside: (_) => FocusScope.of(context).unfocus(),
           style: DlTextStyles.textBase.regular.copyWith(color: colors.black),
+          buildCounter: (context, {required currentLength, required isFocused, required maxLength}) => null,
           decoration: InputDecoration(
             isDense: true,
             border: InputBorder.none,
