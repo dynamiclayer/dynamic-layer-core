@@ -156,56 +156,58 @@ class _DlInputState extends State<DlInput> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        GestureDetector(
-          key: const Key('dl_input_tap_area'),
-          behavior: HitTestBehavior.translucent,
-          onTap: widget.enabled ? () => _focusNode.requestFocus() : null,
-          child: Container(
-            key: const Key('dl_input_container'),
-            padding: EdgeInsets.only(
-              left: _paddingLeft(),
-              right: _paddingRight(),
-              top: _verticalPadding(),
-              bottom: _verticalPadding(),
-            ),
-            decoration: BoxDecoration(
-              color: colors.grey.c100,
-              borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
-              border: Border.all(
-                color: _isActive ? colors.black : Colors.transparent,
-                width: 2,
+        TextFieldTapRegion(
+          child: GestureDetector(
+            key: const Key('dl_input_tap_area'),
+            behavior: HitTestBehavior.translucent,
+            onTap: widget.enabled ? () => _focusNode.requestFocus() : null,
+            child: Container(
+              key: const Key('dl_input_container'),
+              padding: EdgeInsets.only(
+                left: _paddingLeft(),
+                right: _paddingRight(),
+                top: _verticalPadding(),
+                bottom: _verticalPadding(),
               ),
-            ),
-            child: Row(
-              children: [
-                if (_isPhoneType) ...[
-                  GestureDetector(
-                    key: const Key('dl_input_phone_tag_tap'),
-                    onTap: widget.enabled
-                        ? () {
-                            HapticFeedback.mediumImpact();
-                            widget.onPhoneTagPressed?.call();
-                          }
-                        : null,
-                    child: DlTag(
-                      key: const Key('dl_input_phone_tag'),
-                      label: widget.phoneTagLabel,
-                      size: DlTagSize.md,
-                      mode: DlTagMode.dark,
+              decoration: BoxDecoration(
+                color: colors.grey.c100,
+                borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
+                border: Border.all(
+                  color: _isActive ? colors.black : Colors.transparent,
+                  width: 2,
+                ),
+              ),
+              child: Row(
+                children: [
+                  if (_isPhoneType) ...[
+                    GestureDetector(
+                      key: const Key('dl_input_phone_tag_tap'),
+                      onTap: widget.enabled
+                          ? () {
+                              HapticFeedback.mediumImpact();
+                              widget.onPhoneTagPressed?.call();
+                            }
+                          : null,
+                      child: DlTag(
+                        key: const Key('dl_input_phone_tag'),
+                        label: widget.phoneTagLabel,
+                        size: DlTagSize.md,
+                        mode: DlTagMode.dark,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: DlSpacingTokens.p_8),
-                ] else if (widget.iconLeft != null) ...[
-                  IconTheme(
-                    key: const Key('dl_input_icon_left_theme'),
-                    data: IconThemeData(color: colors.grey.c500),
-                    child: widget.iconLeft!,
-                  ),
-                  const SizedBox(width: DlSpacingTokens.p_8),
+                    const SizedBox(width: DlSpacingTokens.p_8),
+                  ] else if (widget.iconLeft != null) ...[
+                    IconTheme(
+                      key: const Key('dl_input_icon_left_theme'),
+                      data: IconThemeData(color: colors.grey.c500),
+                      child: widget.iconLeft!,
+                    ),
+                    const SizedBox(width: DlSpacingTokens.p_8),
+                  ],
+                  Expanded(child: inputContent),
+                  ...rightIcons,
                 ],
-                Expanded(child: inputContent),
-                ...rightIcons,
-              ],
+              ),
             ),
           ),
         ),
@@ -297,7 +299,7 @@ class _DlInputState extends State<DlInput> {
     if (_showClearIcon) {
       icons.add(GestureDetector(
         key: const Key('dl_input_clear_icon_tap'),
-        behavior: HitTestBehavior.translucent,
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           _controller.clear();
           widget.onChanged?.call('');
