@@ -4,23 +4,32 @@
 ///   The error icon and helper text appear automatically.
 /// - Use type: DlInputType.success for validated fields. The success icon appears
 ///   automatically.
+/// - When the input has text, a clear (X) icon appears on the far right to
+///   delete the entered value. This applies to all types including error and
+///   success — the type icon sits to the left of the clear icon with p_8 gap.
 /// - When type is error or success, the right icon is overridden by the type icon.
-///   A custom iconRight is only visible in defaultType.
+///   A custom iconRight is only visible in defaultType and phone.
 /// - Sizes: lg (default), md, sm. When used alongside a DlButton in the same
 ///   container, prefer matching sizes.
 /// - Set enabled: false to disable the input. Do not use for read-only display —
 ///   disabled means the user cannot interact with it.
 /// - Use obscureText: true for password fields.
+/// - Use type: DlInputType.phone for phone number fields. A DlTag (md, dark)
+///   appears on the left showing the country code (default "DE +49"). Tap the
+///   tag to open a country picker. The keyboard type is automatically set to
+///   phone.
 /// - The placeholder text moves above the input value when focused or filled.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../foundations/icons/dl_icons.dart';
 import '../foundations/tokens/dl_radius_tokens.dart';
 import '../foundations/tokens/dl_spacing_tokens.dart';
 import '../theme/dl_color_palette.dart';
 import '../theme/dl_text_styles.dart';
+import 'dl_tag.dart';
 
-enum DlInputType { defaultType, error, success }
+enum DlInputType { defaultType, error, success, phone }
 
 enum DlInputSize { lg, md, sm }
 
@@ -40,6 +49,8 @@ class DlInput extends StatefulWidget {
     this.type = DlInputType.defaultType,
     this.size = DlInputSize.lg,
     this.errorHelperText,
+    this.phoneTagLabel = 'DE +49',
+    this.onPhoneTagPressed,
   });
 
   final String placeholder;
@@ -55,6 +66,8 @@ class DlInput extends StatefulWidget {
   final DlInputType type;
   final DlInputSize size;
   final String? errorHelperText;
+  final String phoneTagLabel;
+  final VoidCallback? onPhoneTagPressed;
 
   @override
   State<DlInput> createState() => _DlInputState();
@@ -73,6 +86,7 @@ class _DlInputState extends State<DlInput> {
   bool get _showStackedContent => _isActive || _isFilled;
   bool get _isErrorType => widget.type == DlInputType.error;
   bool get _isSuccessType => widget.type == DlInputType.success;
+  bool get _isPhoneType => widget.type == DlInputType.phone;
 
   @override
   void initState() {
@@ -135,8 +149,7 @@ class _DlInputState extends State<DlInput> {
     final inputContent = _buildInputContent(colors);
     final helperText = _errorHelperText;
     final showErrorHelper = helperText != null;
-    final rightIcon = _effectiveRightIcon(colors);
-    final shouldTintRightIcon = !_usesFixedTypeRightIcon;
+    final rightIcons = _buildRightIcons(colors);
 
     return Column(
       key: const Key('dl_input_wrapper'),
@@ -163,7 +176,24 @@ class _DlInputState extends State<DlInput> {
             ),
             child: Row(
               children: [
-                if (widget.iconLeft != null) ...[
+                if (_isPhoneType) ...[
+                  GestureDetector(
+                    key: const Key('dl_input_phone_tag_tap'),
+                    onTap: widget.enabled
+                        ? () {
+                            HapticFeedback.mediumImpact();
+                            widget.onPhoneTagPressed?.call();
+                          }
+                        : null,
+                    child: DlTag(
+                      key: const Key('dl_input_phone_tag'),
+                      label: widget.phoneTagLabel,
+                      size: DlTagSize.md,
+                      mode: DlTagMode.dark,
+                    ),
+                  ),
+                  const SizedBox(width: DlSpacingTokens.p_8),
+                ] else if (widget.iconLeft != null) ...[
                   IconTheme(
                     key: const Key('dl_input_icon_left_theme'),
                     data: IconThemeData(color: colors.grey.c500),
@@ -172,17 +202,7 @@ class _DlInputState extends State<DlInput> {
                   const SizedBox(width: DlSpacingTokens.p_16),
                 ],
                 Expanded(child: inputContent),
-                if (rightIcon != null) ...[
-                  const SizedBox(width: DlSpacingTokens.p_16),
-                  if (shouldTintRightIcon)
-                    IconTheme(
-                      key: const Key('dl_input_icon_right_theme'),
-                      data: IconThemeData(color: colors.grey.c500),
-                      child: rightIcon,
-                    )
-                  else
-                    rightIcon,
-                ],
+                ...rightIcons,
               ],
             ),
           ),
@@ -236,24 +256,55 @@ class _DlInputState extends State<DlInput> {
     }
   }
 
-  bool get _usesFixedTypeRightIcon => _isErrorType || _isSuccessType;
+  bool get _showClearIcon => _isFilled && _isActive;
 
-  Widget? _effectiveRightIcon(DlColorPalette colors) {
+  List<Widget> _buildRightIcons(DlColorPalette colors) {
+    final icons = <Widget>[];
+
     if (_isErrorType) {
-      return DlAssetIcon(
+      icons.add(DlAssetIcon(
         key: const Key('dl_input_type_icon_error'),
         assetPath: DlIcons.circleAlertFilledAsset,
         color: colors.red.c500,
-      );
-    }
-    if (_isSuccessType) {
-      return DlAssetIcon(
+      ));
+    } else if (_isSuccessType) {
+      icons.add(DlAssetIcon(
         key: const Key('dl_input_type_icon_success'),
         assetPath: DlIcons.circleCheckFilledAsset,
         color: colors.green.c600,
-      );
+      ));
+    } else if (widget.iconRight != null) {
+      icons.add(IconTheme(
+        key: const Key('dl_input_icon_right_theme'),
+        data: IconThemeData(color: colors.grey.c500),
+        child: widget.iconRight!,
+      ));
     }
-    return widget.iconRight;
+
+    if (_showClearIcon) {
+      icons.add(GestureDetector(
+        key: const Key('dl_input_clear_icon_tap'),
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          _controller.clear();
+          widget.onChanged?.call('');
+        },
+        child: DlAssetIcon(
+          key: const Key('dl_input_clear_icon'),
+          assetPath: DlIcons.xAsset,
+          color: colors.grey.c500,
+        ),
+      ));
+    }
+
+    if (icons.isEmpty) return [];
+
+    final result = <Widget>[const SizedBox(width: DlSpacingTokens.p_8)];
+    for (var i = 0; i < icons.length; i++) {
+      if (i > 0) result.add(const SizedBox(width: DlSpacingTokens.p_8));
+      result.add(icons[i]);
+    }
+    return result;
   }
 
   Widget _buildInputContent(DlColorPalette colors) {
@@ -300,7 +351,7 @@ class _DlInputState extends State<DlInput> {
       focusNode: _focusNode,
       onChanged: widget.onChanged,
       onSubmitted: (_) => FocusScope.of(context).unfocus(),
-      keyboardType: widget.keyboardType,
+      keyboardType: _isPhoneType ? TextInputType.phone : widget.keyboardType,
       textInputAction: widget.textInputAction,
       obscureText: widget.obscureText,
       enabled: widget.enabled,
