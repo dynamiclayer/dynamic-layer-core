@@ -162,13 +162,15 @@ class _DlInputState extends State<DlInput> {
           onTap: widget.enabled ? () => _focusNode.requestFocus() : null,
           child: Container(
             key: const Key('dl_input_container'),
-            padding: EdgeInsets.symmetric(
-              horizontal: _horizontalPadding(),
-              vertical: _verticalPadding(),
+            padding: EdgeInsets.only(
+              left: _paddingLeft(),
+              right: _paddingRight(),
+              top: _verticalPadding(),
+              bottom: _verticalPadding(),
             ),
             decoration: BoxDecoration(
               color: colors.grey.c100,
-              borderRadius: BorderRadius.circular(DlRadiusTokens.roundedMd),
+              borderRadius: BorderRadius.circular(DlRadiusTokens.roundedFull),
               border: Border.all(
                 color: _isActive ? colors.black : Colors.transparent,
                 width: 2,
@@ -199,7 +201,7 @@ class _DlInputState extends State<DlInput> {
                     data: IconThemeData(color: colors.grey.c500),
                     child: widget.iconLeft!,
                   ),
-                  const SizedBox(width: DlSpacingTokens.p_16),
+                  const SizedBox(width: DlSpacingTokens.p_8),
                 ],
                 Expanded(child: inputContent),
                 ...rightIcons,
@@ -224,13 +226,24 @@ class _DlInputState extends State<DlInput> {
     return widget.errorHelperText ?? 'Error helper text';
   }
 
-  double _horizontalPadding() {
+  double _paddingLeft() {
+    if (_isPhoneType) return DlSpacingTokens.p_16;
     switch (widget.size) {
       case DlInputSize.lg:
       case DlInputSize.md:
-        return DlSpacingTokens.p_16;
+        return DlSpacingTokens.p_24;
       case DlInputSize.sm:
-        return DlSpacingTokens.p_12;
+        return DlSpacingTokens.p_16;
+    }
+  }
+
+  double _paddingRight() {
+    switch (widget.size) {
+      case DlInputSize.lg:
+      case DlInputSize.md:
+        return DlSpacingTokens.p_24;
+      case DlInputSize.sm:
+        return DlSpacingTokens.p_16;
     }
   }
 
