@@ -27,14 +27,7 @@ abstract final class DlTypographyTokens {
   static const double lineHeight9 = 48;
 
   /// font / letter-spacing
-  static const double letterSpacing1 = -0.4;
-  static const double letterSpacing2 = -0.16;
-  static const double letterSpacing3 = -0.12;
-  static const double letterSpacing4 = -0.1;
-  static const double letterSpacing5 = -0.08;
-  static const double letterSpacing6 = -0.04;
-  static const double letterSpacing7 = 0;
-  static const double letterSpacing8 = 0.04;
+  static const double letterSpacing = 0.5;
 
   /// font / weight
   static const FontWeight weightLight = FontWeight.w300;

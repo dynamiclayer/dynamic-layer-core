@@ -32,104 +32,87 @@ abstract final class DlTextStyles {
   static final DlTextStyleScale textXs = _buildScale(
     fontSize: DlTypographyTokens.fontSize1,
     lineHeight: DlTypographyTokens.lineHeight1,
-    letterSpacing: 0.5,
   );
 
   static final DlTextStyleScale textSm = _buildScale(
     fontSize: DlTypographyTokens.fontSize2,
     lineHeight: DlTypographyTokens.lineHeight2,
-    letterSpacing: 0.5,
   );
 
   static final DlTextStyleScale textBase = _buildScale(
     fontSize: DlTypographyTokens.fontSize3,
     lineHeight: DlTypographyTokens.lineHeight3,
-    letterSpacing: 0.5,
   );
 
   static final DlTextStyleScale textLg = _buildScale(
     fontSize: DlTypographyTokens.fontSize4,
     lineHeight: DlTypographyTokens.lineHeight4,
-    letterSpacing: 0.5,
   );
 
   static final DlTextStyleScale textXl = _buildScale(
     fontSize: DlTypographyTokens.fontSize5,
     lineHeight: DlTypographyTokens.lineHeight5,
-    letterSpacing: 0.5,
   );
 
   static final DlTextStyleScale text2Xl = _buildScale(
     fontSize: DlTypographyTokens.fontSize6,
     lineHeight: DlTypographyTokens.lineHeight6,
-    letterSpacing: 0.5,
   );
 
   static final DlTextStyleScale text3Xl = _buildScale(
     fontSize: DlTypographyTokens.fontSize7,
     lineHeight: DlTypographyTokens.lineHeight7,
-    letterSpacing: 0.5,
   );
 
   static final DlTextStyleScale text4Xl = _buildScale(
     fontSize: DlTypographyTokens.fontSize8,
     lineHeight: DlTypographyTokens.lineHeight8,
-    letterSpacing: 0.5,
   );
 
   static final DlTextStyleScale text5Xl = _buildScale(
     fontSize: DlTypographyTokens.fontSize9,
     lineHeight: DlTypographyTokens.lineHeight9,
-    letterSpacing: 0.5,
   );
 
   static DlTextStyleScale _buildScale({
     required double fontSize,
     required double lineHeight,
-    required double letterSpacing,
   }) {
     return DlTextStyleScale(
       light: _style(
         fontSize: fontSize,
         lineHeight: lineHeight,
-        letterSpacing: letterSpacing,
         fontWeight: DlTypographyTokens.weightLight,
       ),
       regular: _style(
         fontSize: fontSize,
         lineHeight: lineHeight,
-        letterSpacing: letterSpacing,
         fontWeight: DlTypographyTokens.weightRegular,
       ),
       medium: _style(
         fontSize: fontSize,
         lineHeight: lineHeight,
-        letterSpacing: letterSpacing,
         fontWeight: DlTypographyTokens.weightMedium,
       ),
       semiBold: _style(
         fontSize: fontSize,
         lineHeight: lineHeight,
-        letterSpacing: letterSpacing,
         fontWeight: DlTypographyTokens.weightSemibold,
       ),
       bold: _style(
         fontSize: fontSize,
         lineHeight: lineHeight,
-        letterSpacing: letterSpacing,
         fontWeight: DlTypographyTokens.weightBold,
       ),
       link: _style(
         fontSize: fontSize,
         lineHeight: lineHeight,
-        letterSpacing: letterSpacing,
         fontWeight: DlTypographyTokens.weightBold,
         decoration: TextDecoration.underline,
       ),
       strike: _style(
         fontSize: fontSize,
         lineHeight: lineHeight,
-        letterSpacing: letterSpacing,
         fontWeight: DlTypographyTokens.weightRegular,
         decoration: TextDecoration.lineThrough,
       ),
@@ -141,7 +124,6 @@ abstract final class DlTextStyles {
   static TextStyle _style({
     required double fontSize,
     required double lineHeight,
-    required double letterSpacing,
     required FontWeight fontWeight,
     TextDecoration decoration = TextDecoration.none,
   }) {
@@ -150,7 +132,6 @@ abstract final class DlTextStyles {
         fontFamily: _fontFamily,
         fontSize: fontSize,
         height: lineHeight / fontSize,
-        letterSpacing: letterSpacing,
         fontWeight: fontWeight,
         decoration: decoration,
       );
@@ -159,7 +140,6 @@ abstract final class DlTextStyles {
       fontFamily: _fontFamily,
       fontSize: fontSize,
       height: lineHeight / fontSize,
-      letterSpacing: letterSpacing,
       fontWeight: fontWeight,
       decoration: decoration,
     );
